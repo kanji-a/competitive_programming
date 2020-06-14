@@ -26,10 +26,8 @@ def resolve():
 
     ans = 0
     for i in A:
-        tmp = 0
         if not divisible[i] and cnt[i] == 1:
-            tmp += 1
-        ans += tmp
+            ans += 1
         
     print(ans)
 
