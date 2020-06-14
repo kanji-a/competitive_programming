@@ -1,4 +1,4 @@
-import sys
+import sys, collections
 input = lambda: sys.stdin.readline().rstrip() 
 sys.setrecursionlimit(10**7)
 INF = 10**20
@@ -14,20 +14,22 @@ def resolve():
     N = I()
     A = LI()
 
+    cnt = collections.Counter(A)
+    A = list(set(A))
     A.sort()
-    divisible = set(list(range(1, 10**6+1)))
+    A_max = A[-1]
+    divisible = [False] * (A_max + 1)
 
     for i in A:
-        j = 1
-        while i*j <= 10**6:
-            if i*j in divisible:
-                divisible.remove(i*j)
-                j += 1
+        for j in range(2 * i, A_max+1, i):
+            divisible[j] = True
 
     ans = 0
     for i in A:
-        if j in divisible:
-            ans += 1
+        tmp = 0
+        if not divisible[i] and cnt[i] == 1:
+            tmp += 1
+        ans += tmp
         
     print(ans)
 
