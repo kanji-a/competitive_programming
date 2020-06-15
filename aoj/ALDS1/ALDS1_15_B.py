@@ -14,7 +14,18 @@ def resolve():
     N, W = LI()
     vw = [LI() for _ in range(N)]
 
-    
+    vw.sort(key=lambda x: x[0]/x[1], reverse=True)
+    ans = 0
+    i = 0
+    while i < N and W - vw[i][1] > 0:
+        ans += vw[i][0]
+        W -= vw[i][1]
+        i += 1
+
+    if i < N:
+        ans += vw[i][0] * W / vw[i][1]
+
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
