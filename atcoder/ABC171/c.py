@@ -11,13 +11,13 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    N = I() - 1
+    N = I()
 
     ans = ''
-    while N >= 26:
-        ans += string.ascii_lowercase[N%26]
-        N = N // 26 - 1
-    ans += string.ascii_lowercase[N%26]
+    radix = 26
+    while N > 0:
+        ans += string.ascii_lowercase[N%radix-1]
+        N = (N - 1) // radix
 
     print(ans[::-1])
 
