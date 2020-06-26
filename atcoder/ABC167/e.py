@@ -11,15 +11,36 @@ def LI_(): return [int(x)-1 for x in input().split()]
 def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
+def factorialMod(n, p):
+    fact = [0] * (n+1)
+    fact[0] = fact[1] = 1
+    factinv = [0] * (n+1)
+    factinv[0] = factinv[1] = 1
+    inv = [0] * (n+1)
+    inv[1] = 1
+    for i in range(2, n + 1):
+        fact[i] = (fact[i-1] * i) % p
+        inv[i] = (-inv[p % i] * (p // i)) % p
+        factinv[i] = (factinv[i-1] * inv[i]) % p
+    return fact, factinv
+
+def combMod(n, r, fact, factinv, p):
+    if (r < 0) or (n < r):
+        return 0
+    r = min(r, n - r)
+    return fact[n] * factinv[r] * factinv[n-r] % p
+
 def resolve():
     N, M, K = LI()
 
     ans = 0
-    # K組より多いものを考える K組同じ色にしてそれ以外は任意
-    for i in itertools.combinations(range(N-1), K):
-        
+    fact, factinv = factorialMod(N, MOD)
 
+    for i in range(K + 1):
+        ans += combMod(N - 1, i, fact, factinv, MOD) * M * pow(M - 1, N - 1 - i, MOD)
+        ans %= MOD
 
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
