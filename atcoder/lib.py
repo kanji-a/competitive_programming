@@ -24,7 +24,16 @@ def comb(n, r):
 
     return result
 
-# conbModに使うfactとfactinvを求める
+# 二項係数を素数で割った余り
+def combMod(n, r, p):
+    numer = 1
+    denom = 1
+    for i in range(1, r+1):
+        numer = numer * (n-r+i) % p
+        denom = denom * i % p
+    return numer * pow(denom, p-2, p) % p
+
+# conbMod0に使うfactとfactinvを求める
 def factorialMod(n, p):
     fact = [0] * (n+1)
     fact[0] = fact[1] = 1
@@ -38,21 +47,12 @@ def factorialMod(n, p):
         factinv[i] = (factinv[i-1] * inv[i]) % p
     return fact, factinv
 
-# 二項係数を素数で割った余り
+# 二項係数を素数で割った余り 繰り返し求める場合はこっち
 def combMod0(n, r, fact, factinv, p):
     if (r < 0) or (n < r):
         return 0
     r = min(r, n - r)
     return fact[n] * factinv[r] * factinv[n-r] % p
-
-# 二項係数 nが大きくてもrが小さければこれでOK
-def combMod(n, r, p):
-    numer = 1
-    denom = 1
-    for i in range(1, r+1):
-        numer = numer * (n-r+i) % p
-        denom = denom * i % p
-    return numer * pow(denom, p-2, p) % p
 
 def is_prime(n):
     if n==0 or n==1: return False
