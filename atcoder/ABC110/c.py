@@ -15,20 +15,28 @@ def resolve():
     T = SS()
 
     l = len(S)
+    R0 = [-1] * 26
+    R1 = [-1] * 26
 
-    S_i = [[] for _ in range(26)]
-    T_i = [[] for _ in range(26)]
+    is_ok = True
     for i in range(l):
-        S_i[ord(S[i]) - ord('a')].append(i)
-        T_i[ord(T[i]) - ord('a')].append(i)
+        S_num = ord(S[i]) - ord('a')
+        T_num = ord(T[i]) - ord('a')
+        # print(S_num, T_num)
+        if R0[S_num] == -1:
+            R0[S_num] = T_num
+        else:
+            if R0[S_num] != T_num:
+                is_ok = False 
+                break
+        if R1[T_num] == -1:
+            R1[T_num] = S_num
+        else:
+            if R1[T_num] != S_num:
+                is_ok = False 
+                break
 
-    S_set = set()
-    T_set = set()
-    for i in range(26):
-        if S_i[i]: S_set.add(tuple(S_i[i]))
-        if T_i[i]: T_set.add(tuple(T_i[i]))
-
-    if S_set == T_set:
+    if is_ok:
         print('Yes')
     else:
         print('No')
