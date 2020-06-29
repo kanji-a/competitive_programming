@@ -12,28 +12,24 @@ def LSS(): return input().split()
 
 def resolve():
     N, M, K = LI()
-    A = collections.deque(LI())
-    B = collections.deque(LI())
+    A = LI()
+    B = LI()
+
+    A_acc = [0] * (N + 1)
+    for i in range(N):
+        A_acc[i+1] = A_acc[i] + A[i]
+    B_acc = [0] * (M + 1)
+    for i in range(M):
+        B_acc[i+1] = B_acc[i] + B[i]
 
     ans = 0
-    while K > 0:
-        if A and not B or (A and B and A[0] < B[0]):
-            if K < A[0]:
-                break
-            K -= A[0]
-            A.popleft()
-            ans += 1
-        elif B and not A or A and B and A[0] > B[0]:
-            if K < B[0]:
-                break
-            K -= B[0]
-            B.popleft()
-            ans += 1
-        else:
+    for i in range(N + 1):
+        if A_acc[i] > K:
             break
+        j = bisect.bisect_right(B_acc, K - A_acc[i]) - 1
+        ans = max(i + j, ans)
 
     print(ans)
-
 
 if __name__ == '__main__':
     resolve()

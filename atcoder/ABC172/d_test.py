@@ -25,10 +25,10 @@ class TestClass(unittest.TestCase):
         output = """26879"""
         self.assertIO(input, output)
 
-    # def test_入力例_3(self):
-    #     input = """10000000"""
-    #     output = """838627288460105"""
-    #     self.assertIO(input, output)
+    def test_入力例_3(self):
+        input = """10000000"""
+        output = """838627288460105"""
+        self.assertIO(input, output)
 
 
 if __name__ == "__main__":
