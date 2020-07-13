@@ -14,27 +14,14 @@ def resolve():
     N = I()
     A = LI()
 
-    # A.sort(reverse=True)
-    cnt = collections.Counter(A)
-    keys = list(cnt.keys())
-    keys.sort(reverse=True)
-    values = [cnt[i] for i in keys]
-    values_acc = [0] * (len(values) + 1)
-    for i in range(len(values)):
-        values_acc[i+1] = values_acc[i] + values[i]
+    A.sort(reverse=True)
 
     ans = 0
-    for i in range(len(values)):
-        if values[i] <= values_acc[i]:
-            ans += keys[i] * values[i]
-        else:
-            ans += keys[i] * values[i]
+    for i in range(N - 1):
+        j = (i + 1) // 2
+        ans += A[j]
 
-
-
-    print(keys)
-    print(values)
-    print(values_acc)
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
