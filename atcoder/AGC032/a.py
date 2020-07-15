@@ -13,8 +13,27 @@ def LSS(): return input().split()
 def resolve():
     N = I()
     b = LI()
-    # iはi-1番目以降にしかない
-    # 条件を満たすbの順列を全部試せばOK
+
+    # bから数字を除去して空にできるか判定する
+    ans = []
+    while b:
+        has_pop = False
+        len_b = len(b)
+        for i in range(len_b):
+            j = len_b - 1 - i
+            if b[j] == j + 1:
+                b.pop(j)
+                ans.append(j + 1)
+                has_pop = True
+                break
+        if not has_pop:
+            break
+
+    if len(ans) == N:
+        for i in range(N):
+            print(ans[N-1-i])
+    else:
+        print(-1)
 
 if __name__ == '__main__':
     resolve()
