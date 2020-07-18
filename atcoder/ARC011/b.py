@@ -14,7 +14,7 @@ def resolve():
     N = I()
     w = LSS()
 
-    ans = ''
+    ans = []
     for i in range(N):
         tmp = ''
         for j in w[i]:
@@ -41,13 +41,9 @@ def resolve():
             elif j == ' ':
                 tmp += ' '
         if tmp.count(' ') != len(tmp):
-            ans += tmp
-            ans += ' '
+            ans.append(tmp)
 
-    if ans and ans[-1] == ' ':
-        print(ans[:-1])
-    else:
-        print(ans)
+    print(*ans)
 
 if __name__ == '__main__':
     resolve()
