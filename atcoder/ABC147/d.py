@@ -15,11 +15,23 @@ def resolve():
     N = I()
     A = LI()
 
-    print(sum(A) % MOD)
-    # Aの登場回数の偶奇?
-    for i in range(N - 1):
-        for j in range(i + 1, N):
-            print(A[i], A[j], A[i] ^ A[j])
+    # 桁ごとに1の足される数を数える方針
+
+    # 下準備 Aの中で、d桁目が1であるものの個数
+    cnt = [0] * 60
+    for i in A:
+        for j in range(60):
+            if i >> j & 1:
+                cnt[j] += 1
+
+    # 繰り上がりのない2進数→10進数に変換
+    ans = 0
+    for i in range(60):
+        # i桁目に1の足される数に2のi乗をかければよい
+        ans += cnt[i] * (N - cnt[i]) * pow(2, i, MOD)
+        ans %= MOD
+
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
