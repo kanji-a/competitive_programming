@@ -11,7 +11,15 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N, A, B = LI()
+    X = LI()
+
+    ans = 0
+    for i in range(N - 1):
+        d =X[i+1] - X[i]
+        ans += min(A * d, B)
+
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
