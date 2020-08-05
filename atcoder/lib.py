@@ -85,12 +85,12 @@ def primeFactorization(n, primes):
     return collections.Counter(ans)
 
 # 素数リストがない場合の素因数分解 基本これがベスト
-def primeFactorization0(n):
+def primeFactorization(n):
     ans = []
     temp = n
     while temp%2 == 0:
         ans.append(2)
-        temp /= 2
+        temp //= 2
     for i in range(3, int(n**0.5)+1, 2):
         while temp%i == 0:
             ans.append(i)
