@@ -14,12 +14,21 @@ def resolve():
     N, K = LI()
     A = LI()
 
-    sum_A = sum(A)
+    # 最大の長さがxになるような切断回数
+    def cut_num(x):
+        ret = sum([math.ceil(i / x) - 1 for i in A])
+        return ret
 
-    l = [i / (K * (i - 1) / (sum_A - N) + 1) for i in A]
-    print(l)
-    ans = math.ceil(max(l))
-    print(ans)
+    ng = 0
+    ok = max(A)
+    while abs(ok-ng)>10**(-6):
+        m = (ng+ok)/2
+        if cut_num(m) <= K:
+            ok = m
+        else:
+            ng = m
+
+    print(math.ceil(ok))
 
 if __name__ == '__main__':
     resolve()
