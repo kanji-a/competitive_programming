@@ -21,6 +21,7 @@ def resolve():
 
     ng = 0
     ok = max(A)
+    # 許容誤差が10**(-5)以上だとWA
     while abs(ok-ng)>10**(-6):
         m = (ng+ok)/2
         if cut_num(m) <= K:
