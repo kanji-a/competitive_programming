@@ -13,17 +13,23 @@ def LSS(): return input().split()
 def resolve():
     K = I()
 
-    if K % 2 == 0 or K % 5 == 0:
-        print(-1)
-    else:
-        rem = 7 % K
-        ans = 0
-        while rem != 0:
-            rem = rem * 10 + 7
-            rem %= K
-            ans += 1
+    rem = 7 % K
+    ans = 0
+    is_ok = True
+    seen = [False] * K
+    while rem != 0:
+        if seen[rem]:
+            is_ok = False
+            break
+        seen[rem] = True
+        rem = rem * 10 + 7
+        rem %= K
+        ans += 1
 
+    if is_ok:
         print(ans + 1)
+    else:
+        print(-1)
 
 if __name__ == '__main__':
     resolve()
