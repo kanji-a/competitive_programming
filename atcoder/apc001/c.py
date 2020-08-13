@@ -11,7 +11,25 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+
+    ng = 0
+    ok = N
+    print(ng, flush=True)
+    ng_s = SS()
+    ok_s = ng_s
+    while abs(ok-ng)>1:
+        m = (ng+ok)//2
+        print(m, flush=True)
+        s = SS()
+        if s == 'Vacant':
+            sys.exit()
+        elif (ok - m) % 2 == 1 and ok_s != s or (ok - m) % 2 == 0 and ok_s == s:
+            ok = m
+            ok_s = s
+        else:
+            ng = m
+            ng_s = s
 
 if __name__ == '__main__':
     resolve()
