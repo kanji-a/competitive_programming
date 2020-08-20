@@ -18,9 +18,7 @@ def resolve():
     cnt = [[0] * 3 for _ in range(max([r for r, h in RH]) + 1)]
     for r, h in RH:
         cnt[r][h-1] += 1
-    cum = [0] * (len(cnt) + 1)
-    for i in range(len(cnt)):
-        cum[i+1] = sum(cnt[i]) + cum[i]
+    cum = list(itertools.accumulate([sum(i) for i in cnt], initial=0))
     # print(cnt)
     # print(cum)
 
