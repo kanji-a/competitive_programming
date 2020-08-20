@@ -5,6 +5,7 @@ import unittest
 
 
 class TestClass(unittest.TestCase):
+    maxDiff = None
     def assertIO(self, input, output):
         stdout, stdin = sys.stdout, sys.stdin
         sys.stdout, sys.stdin = StringIO(), StringIO(input)
@@ -24,6 +25,12 @@ class TestClass(unittest.TestCase):
         input = """5 2
 1 0 0 1 0"""
         output = """3 3 4 4 3"""
+        self.assertIO(input, output)
+
+    def test_入力例_3(self):
+        input = """20 20
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"""
+        output = """20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20"""
         self.assertIO(input, output)
 
 
