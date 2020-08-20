@@ -11,7 +11,12 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    K = I()
+    x = LI()
+
+    ans = sum([2 * min(x[i], K - x[i]) for i in range(N)])
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
