@@ -11,7 +11,24 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    S = [list(SS()) for _ in range(N)]
+
+    cnt = 0
+    for i in range(N):
+        for j in range(N - 1, -1, -1):
+            # 最右.を見つけたらその下の行を右に塗っていく
+            # その行はもう見ないので塗る処理はしない
+            if S[i][j] == '.':
+                if i < N - 1:
+                    for k in range(j, N):
+                        S[i+1][k] = 'o'
+                cnt += 1
+                break
+
+    # for i in S:
+    #     print(i)
+    print(cnt)
 
 if __name__ == '__main__':
     resolve()
