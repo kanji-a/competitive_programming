@@ -247,16 +247,3 @@ def lis(a):
     for i in a:
         dp[bisect.bisect_left(dp, i)] = i
     return bisect.bisect_left(dp, INF)
-
-def r_l_compress(l):
-    res = ''
-    tmp = 0
-    for i, e in enumerate(l):
-        if not res:
-            res += e
-        elif e!=res[-1]:
-            res += (str(i-tmp))
-            res += e
-            tmp = i
-    res += (str(len(l)-tmp))
-    return res
