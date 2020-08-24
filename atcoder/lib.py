@@ -247,3 +247,17 @@ def lis(a):
     for i in a:
         dp[bisect.bisect_left(dp, i)] = i
     return bisect.bisect_left(dp, INF)
+
+# listを分割 is_ng(x)は分割条件
+# ex. 増加列だったらa[i] > a[i+1]
+# 未試用のためバグあるかも
+def split_list(a):
+    ret = []
+    tmp = []
+    l = len(a)
+    for i in range(l):
+        tmp.append(a[i])
+        if i < l - 1 and is_ng(i) or i == l - 1:
+            ret.append(tmp)
+            tmp = []
+    return ret
