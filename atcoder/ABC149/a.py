@@ -11,7 +11,9 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    S, T = LS()
+
+    print(T + S)
 
 if __name__ == '__main__':
     resolve()
