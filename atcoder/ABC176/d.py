@@ -1,7 +1,7 @@
 import bisect, collections, copy, heapq, itertools, math, string, sys
 input = lambda: sys.stdin.readline().rstrip() 
 sys.setrecursionlimit(10**7)
-INF = float('inf')
+INF = 10 ** 9
 def I(): return int(input())
 def F(): return float(input())
 def SS(): return input()
@@ -14,21 +14,36 @@ def resolve():
     H, W = LI()
     Ch, Cw = LI_()
     Dh, Dw = LI_()
-    S = [list(SS()) for _ in range(H)]
+    S = [SS() for _ in range(H)]
 
     d = ((1, 0), (0, 1), (-1, 0), (0, -1)) 
-
+    d_warp = []
+    for i in itertools.product(range(-2, 3), repeat=2):
+        if i != (0, 0) and i not in d:
+            d_warp.append(i)
+    dist = [[INF] * W for _ in range(H)]
     que = collections.deque()
-    que.append(Ch, Cw, 0)
-    S[Ch][Cw] = 0
+    que.append((Ch, Cw, 0))
+    dist[Ch][Cw] = 0
     while que:
         cy, cx, cost = que.popleft()
         for dy, dx in d:
             ny = cy + dy
             nx = cx + dx
-            if 0 <= ny < H and 0 <= nx < W and S[ny][nx] == '.':
-                S[ny][nx] = cost
-                que.append((ny, nx, cost))
+            if 0 <= ny < H and 0 <= nx < W and S[ny][nx] == '.' and cost < dist[ny][nx] :
+                dist[ny][nx] = cost
+                que.appendleft((ny, nx, cost))
+        for dy, dx in d_warp:
+            ny = cy + dy
+            nx = cx + dx
+            if 0 <= ny < H and 0 <= nx < W and S[ny][nx] == '.' and cost + 1 < dist[ny][nx] :
+                dist[ny][nx] = cost + 1
+                que.append((ny, nx, cost + 1))
+
+    if dist[Dh][Dw] == INF:
+        print(-1)
+    else:
+        print(dist[Dh][Dw])
 
 if __name__ == '__main__':
     resolve()
