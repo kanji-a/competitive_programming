@@ -1,23 +1,32 @@
-import sys
+import bisect, collections, copy, functools, heapq, itertools, math, string, sys
 input = lambda: sys.stdin.readline().rstrip() 
+sys.setrecursionlimit(10**7)
+INF = float('inf')
+def I(): return int(input())
+def F(): return float(input())
+def SS(): return input()
+def LI(): return [int(x) for x in input().split()]
+def LI_(): return [int(x)-1 for x in input().split()]
+def LF(): return [float(x) for x in input().split()]
+def LSS(): return input().split()
 
 def resolve():
-    N = input()
-    K = int(input())
+    N = I()
+    K = I()
 
-    L = len(N)
-
-    dp0 = [[0]*K for _ in range(L)]
-    dp1 = [[0]*K for _ in range(L)]
-
-    dp0[0][1] = N[0]-1
-    dp1[0][1] = 1
-
-    for i in range(1, L):
-        for k in range(K):
-            dp0[i][k] = dp0+dp1
-            dp1[i][k] = dp1[i-1][k]
-
+    # [0, N]で、non0の数字がK個あるものの数
+    @functools.lru_cache
+    def f(N, K):
+        if N == K == 0:
+            ret = 1
+        elif N > 0 and K >= 0:
+            ret = f(N // 10, K) + N % 10 * f(N // 10, K - 1) + (9 - N % 10) * f(N // 10 - 1, K - 1)
+        else:
+            ret = 0
+        return ret
+    
+    ans = f(N, K)
+    print(ans)
 
 if __name__ == '__main__':
     resolve()

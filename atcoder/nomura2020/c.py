@@ -38,7 +38,7 @@ def resolve():
         #     break
         nodes = min(2**(N-i), nodes)
         ans += nodes
-        print(ans, nodes)
+        # print(ans, nodes)
 
     print(ans)
 
