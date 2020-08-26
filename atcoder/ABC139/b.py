@@ -11,7 +11,10 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    A, B = LI()
+
+    ans = (B - 2) // (A - 1) + 1
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
