@@ -11,7 +11,14 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+
+    fact = []
+    for i in range(1, int(N ** 0.5) + 1):
+        if N % i == 0:
+            fact.append((i, N // i))
+
+    print(sum(fact[-1]) - 2)
 
 if __name__ == '__main__':
     resolve()

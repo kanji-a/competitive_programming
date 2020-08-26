@@ -1,4 +1,4 @@
-import sys
+import itertools, sys
 input = lambda: sys.stdin.readline().rstrip() 
 sys.setrecursionlimit(10**7)
 INF = 10**20
@@ -11,7 +11,13 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    N =I()
+
+    kuku = {i * j for i, j in itertools.product(range(1, 10), repeat=2)}
+    if N in kuku:
+        print('Yes')
+    else:
+        print('No')
 
 if __name__ == '__main__':
     resolve()

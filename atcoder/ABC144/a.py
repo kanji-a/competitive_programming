@@ -11,7 +11,12 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    A, B = LI()
+
+    if 1 <= A <= 9 and 1 <= B <= 9:
+        print(A * B)
+    else:
+        print('-1')
 
 if __name__ == '__main__':
     resolve()
