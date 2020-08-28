@@ -11,7 +11,10 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    A, B, C = LI()
+
+    ans = min(B // A, C)
+    print(ans)
 
 if __name__ == '__main__':
     resolve()

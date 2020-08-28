@@ -1,4 +1,4 @@
-import sys
+import math, sys
 input = lambda: sys.stdin.readline().rstrip() 
 sys.setrecursionlimit(10**7)
 INF = 10**20
@@ -11,7 +11,18 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    A, B, K = LI()
+
+    d = math.gcd(A, B)
+    ans = 0
+    for i in range(d, 0, -1):
+        if A % i == B % i == 0:
+            K -= 1
+        if K == 0:
+            ans = i
+            break
+
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
