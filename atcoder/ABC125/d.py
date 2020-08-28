@@ -11,7 +11,16 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    A = LI()
+    A_abs = [abs(i) for i in A]
+
+    if len([i for i in A if i < 0]) % 2 == 1:
+        ans = sum(A_abs) - 2 * min(A_abs)
+    else:
+        ans = sum(A_abs)
+
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
