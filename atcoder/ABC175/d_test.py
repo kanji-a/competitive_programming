@@ -43,6 +43,13 @@ class TestClass(unittest.TestCase):
         output = """29507023469"""
         self.assertIO(input, output)
 
+    def test_入力例_5(self):
+        input = """5 5
+2 4 5 1 3
+3 4 -5 -6 8"""
+        output = """14"""
+        self.assertIO(input, output)
+
 
 if __name__ == "__main__":
     unittest.main()

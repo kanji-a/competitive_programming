@@ -17,41 +17,28 @@ def resolve():
 
     ans = -INF
     for i in range(N):
-        visited = [False] * N
+        # iを含むサイクルの探索
+        cycle = []
         c = i
-        loop = [c]
         while True:
-            visited[c] = True
             c = P[c]
-            if visited[c]:
+            cycle.append(c)
+            if c == i:
                 break
-            loop.append(c)
-        # print(loop)
-        len_loop = len(loop)
-        l  = [C[i] for i in loop]
-        score_loop = sum(l)
+        len_cycle = len(cycle)
+        # print(i, cycle, [C[j] for j in cycle])
 
-        tmp = 0
-        # ループさせる場合のその分の加算
-        if K > len_loop and score_loop > 0:
-            tmp += K // len_loop * score_loop
-
-        # ループではない部分
-        K_no_loop =  K if K == len_loop else K % len_loop
-        # print(l)
-        l_cum = [0] * (len_loop + 1)
-        for j in range(len_loop):
-            l_cum[j+1] = l[j] + l_cum[j]
-        # print(l_cum)
-
-        max_cand = -INF
-        for j in range(K_no_loop):
-            for k in range(len_loop - j):
-                # print(j+k+1, k)
-                max_cand = max(l_cum[j+k+1] - l_cum[k], max_cand)
-        tmp += max_cand
-
-        ans = max(tmp, ans)
+        # 最大スコアの探索
+        score = 0
+        cycle_score_total = sum([C[j] for j in cycle])
+        cycle_score_cum = list(itertools.accumulate([C[j] for j in cycle]))
+        # 終了地点をjと決める
+        for j in range(min(len_cycle, K)):
+            score = cycle_score_cum[j]
+            if cycle_score_total > 0:
+                score += (K - j - 1) // len_cycle * cycle_score_total
+            # print(j, score)
+            ans = max(score, ans)
 
     print(ans)
 
