@@ -11,7 +11,13 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    N = S()
+
+    xxx = [str(i) * 3 for i in range(10)]
+    if [i for i in xxx if i in N]:
+        print('Yes')
+    else:
+        print('No')
 
 if __name__ == '__main__':
     resolve()

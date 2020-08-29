@@ -11,7 +11,15 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+
+    lucas = [0] * (N + 1)
+    lucas[0] = 2
+    lucas[1] = 1
+    for i in range(N - 1):
+        lucas[i+2] = lucas[i] + lucas[i+1]
+
+    print(lucas[-1])
 
 if __name__ == '__main__':
     resolve()
