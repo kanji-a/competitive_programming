@@ -1,4 +1,4 @@
-import sys
+import sys, itertools
 input = lambda: sys.stdin.readline().rstrip() 
 sys.setrecursionlimit(10**7)
 INF = 10**20
@@ -11,7 +11,20 @@ def LF(): return [float(x) for x in input().split()]
 def LS(): return input().split()
 
 def resolve():
-    pass
+    H, W = LI()
+    s = [list(S()) for _ in range(H)]
+
+    for i, j in itertools.product(range(H), range(W)):
+        if s[i][j] != '#':
+            cnt = 0
+            for k, l in itertools.product(range(-1, 2), repeat=2):
+                if 0 <= i + k < H and 0 <= j + l < W:
+                    if s[i+k][j+l] == '#':
+                        cnt += 1
+            s[i][j] = str(cnt)
+
+    for i in s:
+        print(''.join(i))
 
 if __name__ == '__main__':
     resolve()
