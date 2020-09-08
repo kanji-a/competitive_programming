@@ -99,27 +99,24 @@ def primeFactorization(n):
         ans.append(temp)
     return collections.Counter(ans)
 
-# テーブルを使う素因数分解 出力がおかしい
-def primeFactorizationFromTable(n):
-    # 最小素因数で分解
-    product = [[1, i] for i in range(n+1)]
-    for i in range(2, int(n**0.5)+1):
-        # 合成数では割らない
-        if product[i][0] == 1:
-            # i**2より前は既に別の数で割られている
-            for j in range(i**2, n+1, i):
-                # 割られていない数のみ割る
-                if product[j][0] == 1:
-                    product[j][0] = i
-                    product[j][1] = j // i
-    # 表を辿って素因数分解を求める
-    ans = []
-    temp = n
-    while product[temp][0] != 1:
-        ans.append(product[temp][0])
-        temp = product[temp][1]
-        ans.append(product[temp][1])
-    return ans
+# 複数の数を高速で素因数分解
+def primeFactorization(n):
+    D = list(range(n + 1))
+    for i in range(2, int(n ** 0.5) + 1):
+        if D[i] == i:
+            for j in range(i, n + 1, i):
+                if D[j] == j:
+                    D[j] = i
+    return D
+
+# 使用例
+# D = primeFactorization(n)
+# for i in A:
+#     tmp = i
+#     cnt = collections.Counter()
+#     while tmp != 1:
+#         cnt[D[tmp]] += 1
+#         tmp //= D[tmp]
 
 class UnionFind():
     def __init__(self, n):
