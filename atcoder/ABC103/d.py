@@ -12,9 +12,19 @@ def LSS(): return input().split()
 
 def resolve():
     N, M = LI()
-    ab = [LI() for _ in range(M)]
+    ab = [LI_() for _ in range(M)]
+    ab.sort(key=lambda x: x[1])
 
-    # 間隔が短いやつから見ていくとか 入れ子関係
+    # 区間スケジューリング
+    ans = 0
+    # print(ab)
+    right = -1
+    for a, b in ab:
+        if right <= a:
+            right = b
+            ans += 1
+
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
