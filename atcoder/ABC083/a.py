@@ -11,14 +11,16 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    N, A, B = LI()
+    A, B, C, D = LI()
 
-    ans = 0
-    for i in range(1, N + 1):
-        if A <= sum([int(i) for i in str(i)]) <= B:
-            ans += i
-
-    print(ans)
+    L = A + B
+    R = C + D
+    if L == R:
+        print('Balanced')
+    elif L > R:
+        print('Left')
+    else:
+        print('Right')
 
 if __name__ == '__main__':
     resolve()

@@ -11,12 +11,13 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    N, A, B = LI()
+    X, Y = LI()
 
     ans = 0
-    for i in range(1, N + 1):
-        if A <= sum([int(i) for i in str(i)]) <= B:
-            ans += i
+    num = X
+    while num <= Y:
+        ans += 1
+        num *= 2
 
     print(ans)
 
