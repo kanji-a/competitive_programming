@@ -15,16 +15,23 @@ def resolve():
     N, K = LI()
     LR = [LI() for _ in range(K)]
 
-    # N * KのDP?
-    dp = [0] * N
+    dp = [0] * (N + 1)
     dp[0] = 1
+    a = [0] * (N + 1)
+    a[0] = 1
+    a[1] = -1
     for i in range(N):
         for l, r in LR:
-            for j in range(i + l, min(i + r + 1, N)):
-                dp[j] += dp[i]
-                dp[j] %= MOD
+            left = min(i + l, N)
+            right = min(i + r + 1, N)
+            a[left] += dp[i]
+            a[right] -= dp[i]
+        dp[i+1] += dp[i] + a[i+1]
+        dp[i+1] %= MOD
+        # print(a)
+        # print(dp)
 
-    print(dp[-1])
+    print(dp[-2])
 
 if __name__ == '__main__':
     resolve()
