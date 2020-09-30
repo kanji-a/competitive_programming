@@ -15,23 +15,19 @@ def resolve():
     N, K = LI()
     LR = [LI() for _ in range(K)]
 
-    dp = [0] * (N + 1)
+    dp = [0] * N
     dp[0] = 1
-    a = [0] * (N + 1)
-    a[0] = 1
-    a[1] = -1
-    for i in range(N):
+    dp_acm = list(itertools.accumulate(dp, initial=0))
+    for i in range(1, N):
         for l, r in LR:
-            left = min(i + l, N)
-            right = min(i + r + 1, N)
-            a[left] += dp[i]
-            a[right] -= dp[i]
-        dp[i+1] += dp[i] + a[i+1]
-        dp[i+1] %= MOD
-        # print(a)
-        # print(dp)
+            dp[i] += dp_acm[max(i-l+1, 0)] - dp_acm[max(i-r, 0)]
+            dp[i] %= MOD
+        dp_acm[i+1] = dp_acm[i] + dp[i]
+        dp_acm[i+1] %= MOD
+    # print(dp)
+    # print(dp_acm)
 
-    print(dp[-2])
+    print(dp[-1])
 
 if __name__ == '__main__':
     resolve()
