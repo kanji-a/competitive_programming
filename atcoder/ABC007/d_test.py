@@ -1,4 +1,4 @@
-from d_rec import resolve
+from d2 import resolve
 import sys
 from io import StringIO
 import unittest
