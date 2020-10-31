@@ -1,4 +1,4 @@
-from m import resolve
+from n import resolve
 import sys
 from io import StringIO
 import unittest
@@ -15,27 +15,27 @@ class TestClass(unittest.TestCase):
         self.assertEqual(out, output)
 
     def test_入力例_1(self):
-        input = """3 4
-1 2 3"""
-        output = """5"""
+        input = """4
+10 20 30 40"""
+        output = """190"""
         self.assertIO(input, output)
 
     def test_入力例_2(self):
-        input = """1 10
-9"""
-        output = """0"""
+        input = """5
+10 10 10 10 10"""
+        output = """120"""
         self.assertIO(input, output)
 
     def test_入力例_3(self):
-        input = """2 0
-0 0"""
-        output = """1"""
+        input = """3
+1000000000 1000000000 1000000000"""
+        output = """5000000000"""
         self.assertIO(input, output)
 
     def test_入力例_4(self):
-        input = """4 100000
-100000 100000 100000 100000"""
-        output = """665683269"""
+        input = """6
+7 6 8 6 1 1"""
+        output = """68"""
         self.assertIO(input, output)
 
 
