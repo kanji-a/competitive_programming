@@ -258,3 +258,27 @@ def split_list(a):
             ret.append(tmp)
             tmp = []
     return ret
+
+# 行列乗算MOD
+def matMulMod(A, B):
+    A_h = len(A)
+    B_h = len(B)
+    B_w = len(B[0])
+    C = [[0] * B_w for _ in range(A_h)]
+    for i in range(A_h):
+        for j in range(B_w):
+            for k in range(B_h):
+                C[i][j] += A[i][k] * B[k][j]
+                C[i][j] %= MOD
+    return C
+
+# 行列累乗MOD
+def matPowMod(A, n):
+    s = len(A)
+    B = [[int(i == j) for j in range(s)] for i in range(s)]
+    while n > 0:
+        if n & 1:
+            B = matMulMod(B, A)
+        A = matMulMod(A, A)
+        n >>= 1
+    return B
