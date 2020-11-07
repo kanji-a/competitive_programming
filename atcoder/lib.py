@@ -282,3 +282,31 @@ def matPowMod(A, n):
         A = matMulMod(A, A)
         n >>= 1
     return B
+    
+# RMQ用のセグメント木
+# queryの呼び出し: query(a, b, 0, 0, st.n)
+class segmentTree():
+    def __init__(self, n_):
+        self.n = 1
+        self.int_max = 2 ** 31 - 1
+        while self.n < n_:
+            self.n *= 2
+        self.dat = [self.int_max] * (2 * self.n - 1)
+
+    def update(self, k, a):
+        k += self.n - 1
+        self.dat[k] = a
+        while k > 0:
+            k = (k - 1) // 2
+            self.dat[k] = min(self.dat[k * 2 + 1], self.dat[k * 2 + 2])
+
+    def query(self, a, b, k, l, r):
+        if r <= a or b <= l:
+            return self.int_max
+        if a <= l and r <= b:
+            return self.dat[k]
+        else:
+            vl = self.query(a, b, k * 2 + 1, l, (l + r) // 2)
+            vr = self.query(a, b, k * 2 + 2, (l + r) // 2, r)
+            return min(vl, vr)
+        
