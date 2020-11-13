@@ -204,9 +204,9 @@ def binsearch_right(a, x):
             ng = m
     return ok
 
-def dijkstra(G, s):
+def dijkstra(G, N, s):
     que = []
-    d = [INF]*len(G)
+    d = [INF] * N
     d[s] = 0
     heapq.heappush(que, (d[s], s))
 
