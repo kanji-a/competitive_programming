@@ -1,4 +1,4 @@
-from DSL_1_C import resolve
+from DSL_2_A import resolve
 import sys
 from io import StringIO
 import unittest
