@@ -118,6 +118,7 @@ def primeFactorization(n):
 #         cnt[D[tmp]] += 1
 #         tmp //= D[tmp]
 
+# note.nkmk
 class UnionFind():
     def __init__(self, n):
         self.n = n
@@ -164,6 +165,78 @@ class UnionFind():
 
     def __str__(self):
         return '\n'.join('{}: {}'.format(r, self.members(r)) for r in self.roots())
+
+# drken
+class UnionFind():
+    def __init__(self, n):
+        self.n = n
+        self.par = list(range(n))
+        self.rank = [0] * n
+
+    def root(self, x):
+        if self.par[x] == x:
+            return x
+        else:
+            r = self.root(self.par[x])
+            self.par[x] = r
+            return r
+
+    def issame(self, x, y):
+        return self.root(x) == self.root(y)
+
+    def merge(self, x, y):
+        x = self.root(x)
+        y = self.root(y)
+        if x == y:
+            return False
+        if self.rank[x] < self.rank[y]:
+            x, y = y, x
+        if self.rank[x] == self.rank[y]:
+            self.rank[x] += 1
+        self.par[y] = x
+        return True
+
+class WeightedUnionFind():
+    def __init__(self, n):
+        self.n = n
+        self.par = list(range(n))
+        self.rank = [0] * n
+        self.diff_weight = [0] * n
+
+    def root(self, x):
+        if self.par[x] == x:
+            return x
+        else:
+            r = self.root(self.par[x])
+            self.diff_weight[x] += self.diff_weight[self.par[x]]
+            self.par[x] = r
+            return r
+
+    def issame(self, x, y):
+        return self.root(x) == self.root(y)
+
+    def merge(self, x, y, w):
+        w += self.weight(x)
+        w -= self.weight(y)
+        x = self.root(x)
+        y = self.root(y)
+        if x == y:
+            return False
+        if self.rank[x] < self.rank[y]:
+            x, y = y, x
+            w = -w
+        if self.rank[x] == self.rank[y]:
+            self.rank[x] += 1
+        self.par[y] = x
+        self.diff_weight[y] = w
+        return True
+
+    def weight(self, x):
+        self.root(x)
+        return self.diff_weight[x]
+
+    def diff(self, x, y):
+        return self.weight(y) - self.weight(x)
 
 class Bit:
     def __init__(self, n):
