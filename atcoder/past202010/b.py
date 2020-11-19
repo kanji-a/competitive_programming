@@ -1,4 +1,4 @@
-import bisect, collections, copy, decimal, heapq, itertools, math, string, sys
+import bisect, collections, copy, heapq, itertools, math, string, sys
 input = lambda: sys.stdin.readline().rstrip() 
 sys.setrecursionlimit(10**7)
 INF = float('inf')
@@ -17,7 +17,7 @@ def resolve():
     if Y == 0:
         print('ERROR')
     else:
-        ans = decimal.Decimal(X / Y).quantize(decimal.Decimal('1.00'), rounding=decimal.ROUND_DOWN)
+        ans = '{}.{:02d}'.format(X // Y, (100 * X // Y) % 100)
         print(ans)
 
 if __name__ == '__main__':

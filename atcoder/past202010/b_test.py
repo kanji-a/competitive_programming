@@ -34,6 +34,11 @@ class TestClass(unittest.TestCase):
         output = """0.66"""
         self.assertIO(input, output)
 
+    def test_入力例_5(self):
+        input = """1 1000"""
+        output = """0.00"""
+        self.assertIO(input, output)
+
 
 if __name__ == "__main__":
     unittest.main()
