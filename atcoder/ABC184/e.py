@@ -49,6 +49,8 @@ def resolve():
                 if ans[ny][nx] == -1:
                     ans[ny][nx] = ans[cy][cx] + 1
                     que.append((ny, nx))
+            # 一番近いテレポーター以外を踏むのは無意味なので、一度使ったテレポーターを消去
+            teleporter[idx] = []
     # for i in ans:
     #     print(i)
 
