@@ -5,6 +5,7 @@ import unittest
 
 
 class TestClass(unittest.TestCase):
+    maxDiff = None
     def assertIO(self, input, output):
         stdout, stdin = sys.stdout, sys.stdin
         sys.stdout, sys.stdin = StringIO(), StringIO(input)
