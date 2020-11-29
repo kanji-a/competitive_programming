@@ -13,36 +13,28 @@ def LSS(): return input().split()
 
 def resolve():
     n, k = LI()
-    n_tmp = n
-    n = n_tmp * (20 // n_tmp)
     s = SS()
-    s = s * (20 // n_tmp)
+    s = s * 2
     d = {'R': 0, 'P': 1, 'S': 2}
     d_r = {0: 'R', 1: 'P', 2: 'S'}
 
-    def te(i):
-        return d[s[i%n]]
-
-    # 同じRPSの並びの区間が出たら結果を使い回す
-    @functools.lru_cache
-    def f(l, r):
-        # print(l, r)
-        if r - l == 1:
-            return l
-        else:
-            m = (l + r) // 2
-            offset_l = l // n * n
-            left = f(l - offset_l, m - offset_l)
-            # offset_r = m // n
-            right = f(m - offset_l, r - offset_l)
-            # print(l, r, left, right, d_r[te(left)], d_r[te(right)])
-            if (te(left) - te(right)) % 3 <= 1:
-                return left
+    dp = [[-1] * n for _ in range(k + 1)]
+    # k: 木の高さ i: sの左からのオフセット
+    def f(k, i):
+        if dp[k][i] == -1:
+            if k == 0:
+                dp[k][i] = d[s[i]]
             else:
-                return right
+                l = f(k - 1, i)
+                r = f(k - 1, (i + pow(2, k - 1, n)) % n)
+                if l == r or (l - r) % 3 == 1:
+                    dp[k][i] = l
+                else:
+                    dp[k][i] = r
+        return dp[k][i]
 
-    ans = f(0, 2 ** k)
-    print(s[ans])
+    f(k, 0)
+    print(d_r[dp[k][0]])
 
 if __name__ == '__main__':
     resolve()
