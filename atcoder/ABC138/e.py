@@ -13,42 +13,33 @@ def LSS(): return input().split()
 def resolve():
     s = SS()
     t = SS()
-
     len_s = len(s)
-    len_t = len(t)
 
-    # アルファベットのs内のindex一覧
-    l = [[] for _ in range(26)] 
+    d = collections.defaultdict(list)
     for i in range(len_s):
-        l[ord(s[i]) - ord('a')].append(i)
-    # print(l)
+        d[s[i]].append(i)
+    d_keys = d.keys()
+    # print(d)
 
-    if len([i for i in t if i in set(s)]) == len_t:
-        # t内の文字がs内の何番目に登場するか
-        t_idx = [l[ord(i)-ord('a')] for i in t]
-        # print(t_idx)
-
-        # 昇順部分がなるべく多くなるようにindexを選ぶ
-        t_idx_best = [t_idx[0][0]]
-        for i in range(1, len_t):
-            p = t_idx_best[-1]
-            idx = bisect.bisect_left(t_idx[i], p)
-            if idx == len(t_idx[i]):
-                t_idx_best.append(t_idx[i][0])
-            else:
-                t_idx_best.append(t_idx[i][idx])
-        # print(t_idx_best)
-
-        # 昇順じゃないところでsがもう一個必要になる
-        ans = 0
-        for i in range(len_t - 1):
-            if t_idx_best[i] >= t_idx_best[i+1]:
-                ans += len_s
-        ans += t_idx_best[-1] + 1
-        print(ans)
-
-    else:
+    if [i in d_keys for i in t].count(False) > 0:
         print(-1)
+    else:
+        offset = -1
+        track = 0
+        for i in t:
+            l = d[i]
+            # offsetより大きい最小のiのインデックスを求める
+            idx = bisect.bisect_right(l, offset)
+            # その週のsに文字が無ければ次の週に行く
+            if idx == len(l):
+                track += 1
+                offset = l[0]
+            else:
+                offset = l[idx]
+            # print(l, offset, track, idx)
+
+        ans = track * len_s + offset + 1
+        print(ans)
 
 if __name__ == '__main__':
     resolve()

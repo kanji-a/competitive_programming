@@ -32,6 +32,12 @@ sentence"""
         output = """33"""
         self.assertIO(input, output)
 
+    def test_入力例_4(self):
+        input = """a
+aa"""
+        output = """2"""
+        self.assertIO(input, output)
+
 
 if __name__ == "__main__":
     unittest.main()
