@@ -18,9 +18,7 @@ def resolve():
     # カコモンジムの強さ増分がACジムを超えるまではカコモンジム
     s = X
     e = 0
-    while s * (A - 1) < B:
-        if s >= Y:
-            break
+    while s * (A - 1) < B and s * A < Y:
         s *= A
         e += 1
     e += (Y - 1 - s) // B
