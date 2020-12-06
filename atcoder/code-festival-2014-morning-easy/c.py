@@ -10,9 +10,9 @@ def LI_(): return [int(x)-1 for x in input().split()]
 def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
-def dijkstra(G, s):
+def dijkstra(G, s, n):
     que = []
-    d = [INF]*len(G)
+    d = [INF]*n
     d[s] = 0
     heapq.heappush(que, (d[s], s))
 
@@ -35,10 +35,11 @@ def resolve():
         G[x-1].append((y - 1, d))
         G[y-1].append((x - 1, d))
 
-    dist_s = dijkstra(G, s)
-    dist_t = dijkstra(G, t)
+    dist_s = dijkstra(G, s, n)
+    dist_t = dijkstra(G, t, n)
 
-    ans = [i + 1 for i in range(n) if dist_s[i] == dist_t[i]]
+    # 連結グラフとは限らないので、到達不能点はuにはならない
+    ans = [i + 1 for i in range(n) if dist_s[i] == dist_t[i] and dist_s[i] < INF and dist_t[i] < INF]
     if ans:
         print(ans[0])
     else:
