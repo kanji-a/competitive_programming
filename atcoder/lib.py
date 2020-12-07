@@ -299,8 +299,9 @@ def warshall_floyd(d):
         d[i][i] = 0
     for k in range(V):
         for i in range(V):
+            for j in range(V):
                 d[i][j] = min(d[i][j], d[i][k] + d[k][j])
-    return d
+
 
 def kruskal(es, V):
     es.sort(key=lambda x:x[2])
