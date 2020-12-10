@@ -19,17 +19,31 @@ def resolve():
         a, b = LI_()
         G[a].append(b)
         G[b].append(a)
+    # print(G)
 
-    print(G)
-
-    def dfs(c, p):
+    # まず、通るべき頂点に印をつける
+    to_go = [False] * n
+    def dfs_to_go(c, p):
         if h[c] == 1:
-            print(c)
+            to_go[c] = True
         for n in G[c]:
             if n != p:
-                dfs(n, c)
+                dfs_to_go(n, c)
+                if to_go[n]:
+                    to_go[c] = True
+    dfs_to_go(x, -1)
+    # print(to_go)
 
-    dfs(x, -1)
+    # 通るべき頂点を通った距離を求める
+    ans = [0]
+    def dfs_ans(c, p):
+        for n in G[c]:
+            if n != p and to_go[n]:
+                ans[0] += 1
+                dfs_ans(n, c)
+                ans[0] += 1
+    dfs_ans(x, -1)
+    print(ans[0])
 
 if __name__ == '__main__':
     resolve()
