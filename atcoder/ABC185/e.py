@@ -16,24 +16,23 @@ def resolve():
     A = LI()
     B = LI()
 
-    # 短い方からは取り除かない
-    x = abs(M - N)
-
-    # LCS
+    # 編集距離
     dp = [[0] * (M + 1) for _ in range(N + 1)]
+    for i in range(N + 1):
+        dp[i][0] = i
+    for i in range(M + 1):
+        dp[0][i] = i
+
     for i in range(N):
         for j in range(M):
             if A[i] == B[j]:
-                dp[i+1][j+1] = dp[i][j] + 1
+                dp[i+1][j+1] = dp[i][j]
             else:
-                dp[i+1][j+1] = max(dp[i+1][j], dp[i][j+1])
-    for i in dp:
-        print(i)
+                dp[i+1][j+1] = min(dp[i+1][j] + 1, dp[i][j+1] + 1, dp[i][j] + 1)
+    # for i in dp:
+    #     print(i)
 
-    lcs_len = dp[-1][-1]
-    y = min(N, M) - lcs_len
-    ans = min(x + y, max(N, M))
-
+    ans = dp[-1][-1]
     print(ans)
 
 if __name__ == '__main__':
