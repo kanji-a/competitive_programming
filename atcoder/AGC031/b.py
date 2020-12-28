@@ -15,11 +15,26 @@ def resolve():
     N = I()
     C = [I() for _ in range(N)]
 
-    # 1回以内の場合にしか答えていない
-    cc = [k for k, _ in itertools.groupby(C)]
-    print(cc)
-    cnt = collections.Counter(cc)
-    ans = (sum([i * (i - 1) // 2 % MOD for i in cnt.values()]) + 1) % MOD
+    idx = collections.defaultdict(list)
+    for i in range(N):
+        idx[C[i]].append(i)
+    # print(idx)
+
+    dp = [0] * (N + 1)
+    dp[0] = 1
+    for i in range(N):
+        # まず、手前までの分
+        dp[i+1] = dp[i]
+        # 手前が同じ数字だったら場合の数は増えない
+        # 今見ている数字を見たことで、左にある同じ数字までをひっくり返すという場合が増える
+        if C[i] != C[i-1]:
+            for j in idx[C[i]]:
+                if j >= i - 1:
+                    break
+                dp[i+1] += dp[j]
+    # print(dp)
+
+    ans = dp[-1]
     print(ans)
 
 if __name__ == '__main__':
