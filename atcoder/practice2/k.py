@@ -13,7 +13,10 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N, Q = LI()
+    a = LI()
+
+    lst = lazysegtree.LazySegTree()
 
 if __name__ == '__main__':
     resolve()

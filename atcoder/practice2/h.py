@@ -14,11 +14,20 @@ def LSS(): return input().split()
 
 def resolve():
     N, D = LI()
+    XY = [LI() for _ in range(N)]
 
-    ts = twosat.TwoSAT(N)
-    for _ in range(N):
-        X, Y = LI()
-        ts.add_clause(X, True, Y, True)
+    ts = twosat.TwoSAT(4 * N)
+    for xy0, xy1 in itertools.combinations(XY, 2):
+        for x, y in itertools.product(xy0, xy1):
+            if abs(x - y) >= D:
+                ts.add_clause(x, True, y, True)
+
+    if ts.satisfiable():
+        print('Yes')
+        for i in ts.answer():
+            print(i)
+    else:
+        print('No')
 
 if __name__ == '__main__':
     resolve()
