@@ -1,10 +1,9 @@
-import bisect, collections, copy, heapq, itertools, math, string, sys, typing
-import atcoder.convolution as convolution
+import bisect, collections, copy, heapq, itertools, math, operator, string, sys, typing
+import atcoder.scc as scc
 input = lambda: sys.stdin.readline().rstrip() 
 sys.setrecursionlimit(10**7)
 INF = float('inf')
-# MOD = 10**9+7
-MOD = 998244353
+MOD = 10**9+7
 def I(): return int(input())
 def F(): return float(input())
 def SS(): return input()
@@ -15,11 +14,16 @@ def LSS(): return input().split()
 
 def resolve():
     N, M = LI()
-    a = LI()
-    b = LI()
+    g = scc.SCCGraph(N)
+    for _ in range(M):
+        a, b = LI()
+        g.add_edge(a, b)
+    
+    ans = g.scc()
 
-    ans = convolution.convolution(MOD, a, b)
-    print(*ans)
+    print(len(ans))
+    for i in ans:
+        print(len(i), *i)
 
 if __name__ == '__main__':
     resolve()
