@@ -1,32 +1,52 @@
-import numpy as np
+import bisect, collections, copy, heapq, itertools, math, operator, string, sys, typing
+input = lambda: sys.stdin.readline().rstrip() 
+sys.setrecursionlimit(10**7)
+INF = float('inf')
+MOD = 10**9+7
+def I(): return int(input())
+def F(): return float(input())
+def SS(): return input()
+def LI(): return [int(x) for x in input().split()]
+def LI_(): return [int(x)-1 for x in input().split()]
+def LF(): return [float(x) for x in input().split()]
+def LSS(): return input().split()
 
-H, W = map(int, input().split())
-A = [list(map(int, input().split())) for _ in range(H)]
+def dijkstra(G, H, W, s):
+    d = ((0, 1), (1, 0), (0, -1), (-1, 0))
+    que = []
+    dist = [[INF] * W for _ in range(H)]
+    dist[s[0]][s[1]] = 0
+    heapq.heappush(que, (dist[s[0]][s[1]], s))
 
-print(H, W)
-print(A)
+    while que:
+        p = heapq.heappop(que)
+        cy, cx = p[1]
+        if dist[cy][cx] < p[0]: continue
+        for dy, dx in d:
+            ny = cy + dy
+            nx = cx + dx
+            if 0 <= ny < H and 0 <= nx < W and dist[ny][nx] > dist[cy][cx] + G[ny][nx]:
+                dist[ny][nx] = dist[cy][cx] + G[ny][nx]
+                heapq.heappush(que, (dist[ny][nx], (ny, nx)))
+    return dist
 
-stack = [(H-1, 0)]
-cost_min = -np.inf
-visited = [[False for _ in range(W)] for _ in range(H)]
+def resolve():
+    H, W = LI()
+    A = [LI() for _ in range(H)]
 
-cost = 0
-while len(stack) > 0:
-    current = stack.pop()
-    print("current: ", current)
-    cost += A[current[0]][current[1]]
-    visited[current[0]][current[1]] = True
-    if current == (H-1, W-1):
-        print("goal")
-    neighbor_down = (current[0]+1, current[1])
-    if neighbor_down[0] <= H-1 and not visited[neighbor_down[0]][neighbor_down[1]]:
-        stack.append(neighbor_down)
-    neighbor_up = (current[0]-1, current[1])
-    if neighbor_up[0] >= 0 and not visited[neighbor_up[0]][neighbor_up[1]]:
-        stack.append(neighbor_up)
-    neighbor_right = (current[0], current[1]+1)
-    if neighbor_right[1] <= W-1 and not visited[neighbor_right[0]][neighbor_right[1]]:
-        stack.append(neighbor_right)
-    neighbor_left = (current[0], current[1]-1)
-    if neighbor_left[1] >= 0 and not visited[neighbor_left[0]][neighbor_left[1]]:
-        stack.append(neighbor_left)
+    # ある点Xを決めて、左下→X→右下→X→右上というルートを考える
+    # Xが右下の点でもよい
+
+    # 事前計算
+    dist_dl = dijkstra(A, H, W, (H - 1, 0))
+    dist_dr = dijkstra(A, H, W, (H - 1, W - 1))
+    dist_ur = dijkstra(A, H, W, (0, W - 1))
+
+    ans = INF
+    for i, j in itertools.product(range(H), range(W)):
+        ans = min(dist_dl[i][j] + dist_dr[i][j] + dist_ur[i][j] - 2 * A[i][j], ans)
+
+    print(ans)
+
+if __name__ == '__main__':
+    resolve()

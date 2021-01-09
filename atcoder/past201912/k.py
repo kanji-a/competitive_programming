@@ -1,30 +1,50 @@
-import sys
-input = sys.stdin.readline
+import bisect, collections, copy, heapq, itertools, math, operator, string, sys, typing
+input = lambda: sys.stdin.readline().rstrip() 
+sys.setrecursionlimit(10**7)
+INF = float('inf')
+MOD = 10**9+7
+def I(): return int(input())
+def F(): return float(input())
+def SS(): return input()
+def LI(): return [int(x) for x in input().split()]
+def LI_(): return [int(x)-1 for x in input().split()]
+def LF(): return [float(x) for x in input().split()]
+def LSS(): return input().split()
 
-N = int(input())
-p = list(map(int, [input() for _ in range(N)]))
-Q = int(input())
-ab = [list(map(int, input().split())) for _ in range(Q)]
+def resolve():
+    N = I()
+    G = collections.defaultdict(list)
+    s = -1
+    for i in range(N):
+        p = I() - 1
+        if p == -2:
+            s = i
+            continue
+        G[p].append(i)
 
-# print(N)
-# print(p)
-# print(Q)
-# print(ab)
+    # 木をDFSで走査して頂点を通る順番を比較して判定する
+    o = [[-1, -1] for _ in range(N)]
+    num = [0]
 
-def isChild(a, b):
-    a = a
-    while p[a-1] != -1:
-        if p[a-1] == b:
-            return True
+    def dfs(c, p):
+        o[c][0] = num[0]
+        num[0] += 1
+        for n in G[c]:
+            if n != p:
+                dfs(n, c)
+        o[c][1] = num[0]
+        num[0] += 1
+
+    dfs(s, -1)
+    # print(o)
+
+    M = I()
+    for _ in range(M):
+        a, b = LI_()
+        if o[b][0] < o[a][0] and o[a][1] < o[b][1]:
+            print('Yes')
         else:
-            a = p[a-1]
+            print('No')
 
-if __name__ == '__isChild__':
-    isChild()
-
-for i in range(Q):
-    if isChild(ab[i][0], ab[i][1]):
-        print('Yes')
-    else:
-        print('No')
-        
+if __name__ == '__main__':
+    resolve()
