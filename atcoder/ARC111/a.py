@@ -14,16 +14,8 @@ def LSS(): return input().split()
 def resolve():
     N, M = LI()
 
-    # ans = 10 ** N // M % M
-    # print(ans)
-    # 分子と分母が互いに素か
-    if M % 2 == 0 or M % 5 == 0:
-        # 互いに素でない場合
-        print('aaa')
-    else:
-        ans = pow(10, N, M) % M
-        print(ans)
-
+    ans = pow(10, N, M ** 2) // M % M
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
