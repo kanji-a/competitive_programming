@@ -255,23 +255,12 @@ class Bit:
             self.tree[i] += x
             i += i & -i
 
-def binsearch_left(a, x):
-    ng = -1
-    ok = len(a)
-    while abs(ok-ng)>1:
-        m = (ng+ok)//2
-        if x<=a[m]:
-            ok = m
-        else:
-            ng = m
-    return ok
-
-def binsearch_right(a, x):
-    ng = -1
-    ok = len(a)
-    while abs(ok-ng)>1:
-        m = (ng+ok)//2
-        if x<a[m]:
+def binsearch(a, x):
+    ng = 10 ** 9
+    ok = 0
+    while abs(ok - ng) > 10e-7:
+        m = (ng + ok) / 2
+        if is_ok(m):
             ok = m
         else:
             ng = m
@@ -305,11 +294,11 @@ def warshall_floyd(d):
 
 def kruskal(es, V):
     es.sort(key=lambda x:x[2])
-    uf = UnionFind(V)
+    dsu = DSU(V)
     res = 0
     for e in es:
-        if not uf.same(e[0], e[1]):
-            uf.unite(e[0], e[1])
+        if not dsu.same(e[0], e[1]):
+            dsu.merge(e[0], e[1])
             res += e[2]
     return res
 
