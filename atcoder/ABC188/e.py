@@ -19,21 +19,17 @@ def resolve():
         X, Y = LI_()
         G[X].append(Y)
 
-    visited = [False] * N
-    ans = [-INF]
-    
-    def dfs(c, m):
-        # print(c, m, A[c])
-        visited[c] = True
+    # dp[i]: iに到達可能なiより前の頂点での最安値
+    dp = [INF] * N
+
+    for c in range(N):
         for n in G[c]:
-            ans[0] = max(A[n] - m, ans[0])
-            dfs(n, min(A[n], m))
+            dp[n] = min(dp[c], A[c], dp[n])
 
-    for i in range(N):
-        if not visited[i] and G[i]:
-            dfs(i, A[i])
+    # print(dp)
 
-    print(ans[0])
+    ans = max([a - d for d, a in zip(dp, A)])
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
