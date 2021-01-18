@@ -12,7 +12,16 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    A = [LI() for _ in range(N)]
+    ave = [sum(i) / 6 for i in A]
+    ave.append(INF)
+    min_A = min([min(i) for i in A])
+
+    # dp[i]: iを出した後に振る回数の期待値
+    dp = collections.defaultdict(INF)
+    dp[min_A] = 0
+    # サイコロの出目は単調減少
 
 if __name__ == '__main__':
     resolve()
