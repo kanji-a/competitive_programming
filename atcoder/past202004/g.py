@@ -1,44 +1,40 @@
-import sys
+import bisect, collections, copy, heapq, itertools, math, operator, string, sys, typing
 input = lambda: sys.stdin.readline().rstrip() 
-from collections import Counter
-import bisect as bs
+sys.setrecursionlimit(10**7)
+INF = float('inf')
+MOD = 10**9+7
+def I(): return int(input())
+def F(): return float(input())
+def SS(): return input()
+def LI(): return [int(x) for x in input().split()]
+def LI_(): return [int(x)-1 for x in input().split()]
+def LF(): return [float(x) for x in input().split()]
+def LSS(): return input().split()
 
 def resolve():
-    Q = int(input())
-    Query = [input().split() for _ in range(Q)]
-
-    S = ''
-    l = 0
-    idx = 0
-    # 文字毎に、(累積個数が変わりはじめるindex, 累積個数)を持つ
-    # acm = [[0] for _ in range(26)]
-    acm = [[(0, 0)] for _ in range(26)]
-    for i in Query:
-        if i[0]=='1':
-            C = i[1]
-            X = int(i[2])
-            # S += C*X
-            l += X
-            acm[ord(C)-ord('a')].append((l, acm[ord(C)-ord('a')][-1][1]+X))
+    Q = I()
+    que = collections.deque()
+    for _ in range(Q):
+        Query = LSS()
+        if Query[0] == '1':
+            C, X = Query[1:]
+            X = int(X)
+            que.append((C, X))
         else:
-            D = int(i[1])
-            idx_new = min(idx+D, l)
-            ans = 0
-            for j in acm:
-                j0 = [k[0] for k in j]
-                begin = bs.bisect_left(j0, idx)
-                end = bs.bisect_left(j0, idx_new)
-                print(j, begin, end)
-                # if end<len(j):
-
-                c = j[end][1]-idx_new - j[begin][1] 
-                ans += c**2
-                # print(ans)
-
-            idx = idx_new
-
-    print(acm)
-    print(ans)
+            D = Query[1]
+            D = int(D)
+            ans = collections.Counter()
+            while que:
+                c, x = que.popleft()
+                # Dの残りがxより小さければ戻して終わる
+                if D < x:
+                    que.appendleft((c, x - D))
+                    ans[c] += D
+                    break
+                else:
+                    ans[c] += x
+                D -= x
+            print(sum(i ** 2 for i in ans.values()))
 
 if __name__ == '__main__':
     resolve()

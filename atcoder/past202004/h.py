@@ -1,45 +1,54 @@
-import sys
+import bisect, collections, copy, heapq, itertools, math, operator, string, sys, typing
 input = lambda: sys.stdin.readline().rstrip() 
-from collections import deque
+sys.setrecursionlimit(10**7)
+INF = float('inf')
+MOD = 10**9+7
+def I(): return int(input())
+def F(): return float(input())
+def SS(): return input()
+def LI(): return [int(x) for x in input().split()]
+def LI_(): return [int(x)-1 for x in input().split()]
+def LF(): return [float(x) for x in input().split()]
+def LSS(): return input().split()
 
 def resolve():
-    N, M = map(int, input().split())
-    A = [input() for _ in range(N)]
+    N, M = LI()
+    A = [SS() for _ in range(N)]
 
-    S = ()
-    G = ()
+    c = [[] for _ in range(11)]
     for i in range(N):
         for j in range(M):
-            if A[i][j]=='S':
-                S = (i, j)
-            elif A[i][j]=='G':
-                G = (i, j)
-
-    dir = ((0, 1), (1, 0), (0, -1), (-1, 0))
-    ans = 0
-    for i in range(1, 11):
-        que = deque()
-        dist = [[-1]*M for _ in range(N)]
-        dist[point[i][0]][point[i][1]] = 0
-
-        while len(que)>0:
-            now_y, now_x = que.popleft()
-            if i==10:
-                if A[now_y][now_x]=='G':
-                    ans += dist[now_y][now_x]
-                    break
+            a = A[i][j]
+            if a == 'S':
+                c[0].append((i, j))
+            elif a == 'G':
+                c[10].append((i, j))
             else:
-                if A[now_y][now_x]==str(i):
-                    ans += dist[now_y][now_x]
-                    break
-            for dy, dx in dir:
-                next_y = now_y+dy
-                next_x = now_x+dx
-                if 0<=next_y<N and 0<=next_x<M and dist[next_y][next_x]==-1:
-                    que.append((next_y, next_x))
-                    dist[next_y][next_x] = dist[now_y][now_x]+1
+                c[int(a)].append((i, j))
+    # print(c)
 
+    que = []
+    d = [[INF] * M for _ in range(N)]
+    d[c[0][0][0]][c[0][0][1]] = 0
+    heapq.heappush(que, (0, c[0][0], 0))
 
-    print(ans)
+    while que:
+        num, xy, dist = heapq.heappop(que)
+        cy, cx = xy
+        if d[cy][cx] < dist or num == 10: continue
+        for e in c[num+1]:
+            ny, nx = e
+            nd = d[cy][cx] + (abs(ny - cy) + abs(nx - cx))
+            if d[ny][nx] > nd:
+                d[ny][nx] = nd
+                heapq.heappush(que, (num + 1, (ny, nx), nd))
+    
+    ans = d[c[-1][0][0]][c[-1][0][1]]
+    if ans == INF:
+        print(-1)
+    else:
+        print(ans)
+
 if __name__ == '__main__':
     resolve()
+
