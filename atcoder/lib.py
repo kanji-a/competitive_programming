@@ -1,3 +1,14 @@
+import bisect, collections, copy, heapq, itertools, math, operator, string, sys, typing
+INF = float('inf')
+MOD = 10**9+7
+
+# エラー出さないための定義
+class DSU():
+    def same(self, x, y):
+        pass
+    def merge(self, x, y):
+        pass
+
 # https://qiita.com/derodero24/items/91b6468e66923a87f39f#ユーザ定義型３評価-
 # https://kadzus.hatenadiary.org/entry/20081211/1229023326
 # 二項係数
@@ -85,7 +96,7 @@ def primeFactorization(n, primes):
     return collections.Counter(ans)
 
 # 素数リストがない場合の素因数分解 基本これがベスト
-def primeFactorization(n):
+def primeFactorization1(n):
     ans = []
     temp = n
     while temp%2 == 0:
@@ -100,7 +111,7 @@ def primeFactorization(n):
     return collections.Counter(ans)
 
 # 複数の数を高速で素因数分解
-def primeFactorization(n):
+def primeFactorization2(n):
     D = list(range(n + 1))
     for i in range(2, int(n ** 0.5) + 1):
         if D[i] == i:
@@ -110,7 +121,7 @@ def primeFactorization(n):
     return D
 
 # 使用例
-# D = primeFactorization(n)
+# D = primeFactorization2(n)
 # for i in A:
 #     tmp = i
 #     cnt = collections.Counter()
@@ -118,83 +129,6 @@ def primeFactorization(n):
 #         cnt[D[tmp]] += 1
 #         tmp //= D[tmp]
 
-# note.nkmk
-class UnionFind():
-    def __init__(self, n):
-        self.n = n
-        self.parents = [-1] * n
-
-    def find(self, x):
-        if self.parents[x] < 0:
-            return x
-        else:
-            self.parents[x] = self.find(self.parents[x])
-            return self.parents[x]
-
-    def unite(self, x, y):
-        x = self.find(x)
-        y = self.find(y)
-
-        if x == y:
-            return
-
-        if self.parents[x] > self.parents[y]:
-            x, y = y, x
-
-        self.parents[x] += self.parents[y]
-        self.parents[y] = x
-
-    def same(self, x, y):
-        return self.find(x) == self.find(y)
-
-    def size(self, x):
-        return -self.parents[self.find(x)]
-
-    def members(self, x):
-        root = self.find(x)
-        return [i for i in range(self.n) if self.find(i) == root]
-
-    def roots(self):
-        return [i for i, x in enumerate(self.parents) if x < 0]
-
-    def group_count(self):
-        return len(self.roots())
-
-    def all_group_members(self):
-        return {r: self.members(r) for r in self.roots()}
-
-    def __str__(self):
-        return '\n'.join('{}: {}'.format(r, self.members(r)) for r in self.roots())
-
-# drken
-class UnionFind():
-    def __init__(self, n):
-        self.n = n
-        self.par = list(range(n))
-        self.rank = [0] * n
-
-    def root(self, x):
-        if self.par[x] == x:
-            return x
-        else:
-            r = self.root(self.par[x])
-            self.par[x] = r
-            return r
-
-    def issame(self, x, y):
-        return self.root(x) == self.root(y)
-
-    def merge(self, x, y):
-        x = self.root(x)
-        y = self.root(y)
-        if x == y:
-            return False
-        if self.rank[x] < self.rank[y]:
-            x, y = y, x
-        if self.rank[x] == self.rank[y]:
-            self.rank[x] += 1
-        self.par[y] = x
-        return True
 
 class WeightedUnionFind():
     def __init__(self, n):
@@ -238,23 +172,8 @@ class WeightedUnionFind():
     def diff(self, x, y):
         return self.weight(y) - self.weight(x)
 
-class Bit:
-    def __init__(self, n):
-        self.size = n
-        self.tree = [0] * (n + 1)
-
-    def sum(self, i):
-        s = 0
-        while i > 0:
-            s += self.tree[i]
-            i -= i & -i
-        return s
-
-    def add(self, i, x):
-        while i <= self.size:
-            self.tree[i] += x
-            i += i & -i
-
+def is_ok(x):
+    pass
 def binsearch(a, x):
     ng = 10 ** 9
     ok = 0
@@ -311,6 +230,8 @@ def lis(a):
 # listを分割 is_ng(x)は分割条件
 # ex. 増加列だったらa[i] > a[i+1]
 # 未試用のためバグあるかも
+def is_ng(x):
+    pass
 def split_list(a):
     ret = []
     tmp = []
@@ -346,30 +267,136 @@ def matPowMod(A, n):
         n >>= 1
     return B
     
+# 繰り返し2乗法 powはmod指定しないと遅い
+def my_pow(x, y):
+    res = 1
+    while y:
+        if y & 1:
+            res *= x
+        x **= 2
+        y >>= 1
+    return res
+
+# 以下、ACLにあるのでいらなくなったもの
+
+# class Bit:
+#     def __init__(self, n):
+#         self.size = n
+#         self.tree = [0] * (n + 1)
+
+#     def sum(self, i):
+#         s = 0
+#         while i > 0:
+#             s += self.tree[i]
+#             i -= i & -i
+#         return s
+
+#     def add(self, i, x):
+#         while i <= self.size:
+#             self.tree[i] += x
+#             i += i & -i
+
 # RMQ用のセグメント木
 # queryの呼び出し: query(a, b, 0, 0, st.n)
-class segmentTree():
-    def __init__(self, n_):
-        self.n = 1
-        self.int_max = 2 ** 31 - 1
-        while self.n < n_:
-            self.n *= 2
-        self.dat = [self.int_max] * (2 * self.n - 1)
+# class segmentTree():
+#     def __init__(self, n_):
+#         self.n = 1
+#         self.int_max = 2 ** 31 - 1
+#         while self.n < n_:
+#             self.n *= 2
+#         self.dat = [self.int_max] * (2 * self.n - 1)
 
-    def update(self, k, a):
-        k += self.n - 1
-        self.dat[k] = a
-        while k > 0:
-            k = (k - 1) // 2
-            self.dat[k] = min(self.dat[k * 2 + 1], self.dat[k * 2 + 2])
+#     def update(self, k, a):
+#         k += self.n - 1
+#         self.dat[k] = a
+#         while k > 0:
+#             k = (k - 1) // 2
+#             self.dat[k] = min(self.dat[k * 2 + 1], self.dat[k * 2 + 2])
 
-    def query(self, a, b, k, l, r):
-        if r <= a or b <= l:
-            return self.int_max
-        if a <= l and r <= b:
-            return self.dat[k]
-        else:
-            vl = self.query(a, b, k * 2 + 1, l, (l + r) // 2)
-            vr = self.query(a, b, k * 2 + 2, (l + r) // 2, r)
-            return min(vl, vr)
+#     def query(self, a, b, k, l, r):
+#         if r <= a or b <= l:
+#             return self.int_max
+#         if a <= l and r <= b:
+#             return self.dat[k]
+#         else:
+#             vl = self.query(a, b, k * 2 + 1, l, (l + r) // 2)
+#             vr = self.query(a, b, k * 2 + 2, (l + r) // 2, r)
+#             return min(vl, vr)
         
+# drken
+# class UnionFind():
+#     def __init__(self, n):
+#         self.n = n
+#         self.par = list(range(n))
+#         self.rank = [0] * n
+
+#     def root(self, x):
+#         if self.par[x] == x:
+#             return x
+#         else:
+#             r = self.root(self.par[x])
+#             self.par[x] = r
+#             return r
+
+#     def issame(self, x, y):
+#         return self.root(x) == self.root(y)
+
+#     def merge(self, x, y):
+#         x = self.root(x)
+#         y = self.root(y)
+#         if x == y:
+#             return False
+#         if self.rank[x] < self.rank[y]:
+#             x, y = y, x
+#         if self.rank[x] == self.rank[y]:
+#             self.rank[x] += 1
+#         self.par[y] = x
+#         return True
+
+# note.nkmk
+# class UnionFind():
+#     def __init__(self, n):
+#         self.n = n
+#         self.parents = [-1] * n
+
+#     def find(self, x):
+#         if self.parents[x] < 0:
+#             return x
+#         else:
+#             self.parents[x] = self.find(self.parents[x])
+#             return self.parents[x]
+
+#     def unite(self, x, y):
+#         x = self.find(x)
+#         y = self.find(y)
+
+#         if x == y:
+#             return
+
+#         if self.parents[x] > self.parents[y]:
+#             x, y = y, x
+
+#         self.parents[x] += self.parents[y]
+#         self.parents[y] = x
+
+#     def same(self, x, y):
+#         return self.find(x) == self.find(y)
+
+#     def size(self, x):
+#         return -self.parents[self.find(x)]
+
+#     def members(self, x):
+#         root = self.find(x)
+#         return [i for i in range(self.n) if self.find(i) == root]
+
+#     def roots(self):
+#         return [i for i, x in enumerate(self.parents) if x < 0]
+
+#     def group_count(self):
+#         return len(self.roots())
+
+#     def all_group_members(self):
+#         return {r: self.members(r) for r in self.roots()}
+
+#     def __str__(self):
+#         return '\n'.join('{}: {}'.format(r, self.members(r)) for r in self.roots())
