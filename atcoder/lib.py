@@ -210,7 +210,6 @@ def warshall_floyd(d):
             for j in range(V):
                 d[i][j] = min(d[i][j], d[i][k] + d[k][j])
 
-
 def kruskal(es, V):
     es.sort(key=lambda x:x[2])
     dsu = DSU(V)
