@@ -8,6 +8,11 @@ class DSU():
         pass
     def merge(self, x, y):
         pass
+class FenwickTree():
+    def add(self, p, i):
+        pass
+    def sum(self, l, r):
+        pass
 
 # https://qiita.com/derodero24/items/91b6468e66923a87f39f#ユーザ定義型３評価-
 # https://kadzus.hatenadiary.org/entry/20081211/1229023326
@@ -275,6 +280,19 @@ def my_pow(x, y):
         x **= 2
         y >>= 1
     return res
+
+def inversion_number(n, A):
+    sorted_A = sorted(A)
+    d = {}
+    for i, e in enumerate(sorted_A):
+        d[e] = i
+
+    fwt = FenwickTree(n)
+    ans = 0
+    for i, e in enumerate(A):
+        fwt.add(d[e], 1)
+        ans += i - fwt.sum(0, d[e])
+    return ans
 
 # 以下、ACLにあるのでいらなくなったもの
 
