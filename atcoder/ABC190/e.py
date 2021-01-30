@@ -23,22 +23,22 @@ def resolve():
 
     # TSP的な問題
     # 頂点C同士の距離をBFSで求める
-    dist = {i: {j: INF for j in C} for i in C}
-    for i in C:
+    dist = [[INF] * K for _ in range(K)]
+    for i in range(K):
         dist[i][i] = 0
-    for i in C:
+    for i in range(K):
         d = [INF] * (N + 1)
-        d[i] = 0
+        d[C[i]] = 0
         que = collections.deque()
-        que.append(i)
+        que.append(C[i])
         while que:
             c = que.popleft()
             for n in G[c]:
                 if d[n] == INF:
-                    que.append(n)
                     d[n] = d[c] + 1
-        for j in C:
-            dist[i][j] = d[j]
+                    que.append(n)
+        for j in range(K):
+            dist[i][j] = d[C[j]]
     # print(dist)
 
     # dp[i][j]: 頂点集合iを通って最後にjにいる場合の最小距離
@@ -52,7 +52,7 @@ def resolve():
                 if i >> k & 1:
                     continue
                 nxt = i | 1 << k
-                dp[nxt][k] = min(dp[i][j] + dist[C[j]][C[k]], dp[nxt][k])
+                dp[nxt][k] = min(dp[i][j] + dist[j][k], dp[nxt][k])
     # print(dp)
 
     ans = min(dp[-1][i] for i in range(K)) + 1
