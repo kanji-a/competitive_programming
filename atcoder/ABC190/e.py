@@ -42,19 +42,20 @@ def resolve():
     # print(dist)
 
     # dp[i][j]: 頂点集合iを通って最後にjにいる場合の最小距離
-    dp = [{i: INF for i in C} for _ in range(2 ** K)]
-    for i in C:
+    dp = [[INF] * K for _ in range(2 ** K)]
+    for i in range(K):
         dp[0][i] = 0
     for i in range(2 ** K):
-        for j in C:
+        for j in range(K):
             # dp[i][j]から配る
             for k in range(K):
-                if i >> k & 1 == 0:
-                    nxt = i | 1 << k
-                    dp[nxt][C[k]] = min(dp[i][j] + dist[j][C[k]], dp[nxt][C[k]])
+                if i >> k & 1:
+                    continue
+                nxt = i | 1 << k
+                dp[nxt][k] = min(dp[i][j] + dist[C[j]][C[k]], dp[nxt][k])
     # print(dp)
 
-    ans = min(dp[-1][i] for i in C) + 1
+    ans = min(dp[-1][i] for i in range(K)) + 1
     if ans == INF:
         print(-1)
     else:
