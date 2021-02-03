@@ -282,16 +282,12 @@ def my_pow(x, y):
     return res
 
 def inversion_number(n, A):
-    sorted_A = sorted(A)
-    d = {}
-    for i, e in enumerate(sorted_A):
-        d[e] = i
-
+    d = {e: i for i, e in enumerate(sorted(A))}
     fwt = FenwickTree(n)
     ans = 0
-    for i, e in enumerate(A):
-        fwt.add(d[e], 1)
-        ans += i - fwt.sum(0, d[e])
+    for i in A:
+        fwt.add(d[i], 1)
+        ans += fwt.sum(d[i] + 1, n)
     return ans
 
 # 以下、ACLにあるのでいらなくなったもの
