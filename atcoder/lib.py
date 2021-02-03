@@ -290,6 +290,36 @@ def inversion_number(n, A):
         ans += fwt.sum(d[i] + 1, n)
     return ans
 
+# 削除ありヒープキュー
+# 未テスト
+class LazyHeapq:
+    def __init__(self):
+        self.hq = []
+        self.cnt = collections.Counter()
+
+    def _clean(self):
+        while self.hq and self.cnt[self.hq[0]]:
+            heapq.heappop(self.hq)
+
+    def is_empty(self):
+        return not self.hq
+
+    def push(self, item):
+        heapq.heappush(self.hq, item)
+        self.cnt[item] += 1
+
+    def pop(self):
+        self._clean()
+        self.cnt[self.hq[0]] -= 1
+        return heapq.heappop(self.hq)
+
+    def peek(self):
+        self._clean()
+        return self.hq[0]
+
+    def remove(self, item):
+        self.cnt[item] -= 1
+
 # 以下、ACLにあるのでいらなくなったもの
 
 # class Bit:
