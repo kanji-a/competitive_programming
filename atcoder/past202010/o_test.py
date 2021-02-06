@@ -1,1 +1,0 @@
-from o import resolve

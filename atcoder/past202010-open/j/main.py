@@ -1,8 +1,9 @@
-import bisect, collections, copy, heapq, itertools, math, string, sys
-input = lambda: sys.stdin.readline().rstrip() 
-sys.setrecursionlimit(10**7)
+#!/usr/bin/env python3
+import bisect, collections, copy, heapq, itertools, math, operator, string, sys, typing
+input = lambda: sys.stdin.readline().rstrip()
+sys.setrecursionlimit(10 ** 7)
 INF = float('inf')
-MOD = 10**9+7
+MOD = 10 ** 9 + 7
 def I(): return int(input())
 def F(): return float(input())
 def SS(): return input()
@@ -70,3 +71,4 @@ def resolve():
 
 if __name__ == '__main__':
     resolve()
+
