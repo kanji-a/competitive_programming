@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys, math, itertools
 input = lambda: sys.stdin.readline().rstrip() 
 sys.setrecursionlimit(10**7)
