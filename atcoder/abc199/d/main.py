@@ -20,35 +20,48 @@ def resolve():
         G[A].append(B)
         G[B].append(A)
 
-    ans = 0
-    color = [-1] * N
+    # order[i][j] = k
+    # i:連結成分番号, j:順番, k:頂点番号
+    order = []
+    visited = [False] * N
 
-    def dfs(c):
-        # if len(available_colors) == 0:
-        #     return
-        # for i in available_colors:
-        #     color[c] = i
-        available_colors = set([0, 1, 2]) - set(color[n] for n in G[c])
-        for i in available_colors:
-            color[n] = i
-            for n in G[c]:
-                if color[n] == -1:
-                    dfs(n)
-            color[n] = -1
-
-        if color.count(-1) == 0:
-            print(c, color)
-            nonlocal ans
-            ans += 1
+    # 探索順を決める
+    def dfs1(c, con):
+        visited[c] = True
+        con.append(c)
         for n in G[c]:
-            if color[n] != -1:
-                continue
-            for i in available_colors:
-                color[n] = i
-                dfs(n)
-                color[n] = -1
+            if not visited[n]:
+                dfs1(n, con)
 
-    dfs(0)
+    for i in range(N):
+        con = []
+        if not visited[i]:
+            dfs1(i, con)
+            order.append(con)
+    # print(order)
+
+    # 塗りパターンを数える
+    color = [-1] * N
+    def dfs2(o, d, tmp):
+        c = o[d]
+        # 今見ている頂点に塗れる色
+        s = set([0, 1, 2]) - set(color[i] for i in G[c])
+        # print(o, d, tmp, color, s)
+        if d == len(o) - 1:
+            tmp[0] += len(s)
+            return
+        for i in s:
+            color[c] = i
+            if d + 1 < len(o):
+                dfs2(o, d + 1, tmp)       
+            color[c] = -1
+
+    ans = 1
+    for i in order:
+        # TODO: 参照を使いたいためだけに単一の値を配列で持つのをやめる
+        tmp = [0]
+        dfs2(i, 0, tmp)
+        ans *= tmp[0]
 
     print(ans)
 
