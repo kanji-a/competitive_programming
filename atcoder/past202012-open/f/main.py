@@ -13,8 +13,21 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N, M = LI()
+    ABC = [LI_() for _ in range(M)]
+
+    ans = 0
+    for i in range(2 ** N):
+        s = set()
+        for j in range(M):
+            contain = [i >> k & 1 for k in ABC[j]]
+            if contain.count(True) == 3:
+                break
+            elif contain.count(True) == 2:
+                s.add(ABC[j][contain.index(False)])
+        ans = max(len(s), ans)
+
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
-
