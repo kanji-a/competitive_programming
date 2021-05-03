@@ -13,7 +13,29 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    H, W = LI()
+    r, c = LI_()
+    s = [SS() for _ in range(H)]
+
+    d = ((1, 0), (0, 1), (-1, 0), (0, -1))
+    panel = ('^', '<', 'v', '>')
+    ans = [[j if j == '#' else 'x' for j in i] for i in s]
+    deq = collections.deque()
+    deq.append((r, c))
+
+    while deq:
+        cy, cx = deq.pop()
+        ans[cy][cx] = 'o'
+        for i in range(4):
+            dy, dx = d[i]
+            p = panel[i]
+            ny = cy + dy
+            nx = cx + dx
+            if 0 <= ny < H and 0 <= nx < W and s[ny][nx] in (p, '.') and ans[ny][nx] == 'x':
+                deq.append((ny, nx))
+
+    for i in ans:
+        print(''.join(i))
 
 if __name__ == '__main__':
     resolve()
