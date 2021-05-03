@@ -16,14 +16,26 @@ def resolve():
     N, L = LI()
     K = I()
     A = LI()
-    AA = [A[0]]
-    for i in range(N - 1):
-        AA.append(A[i+1] - A[i])
-    AA.append(L - A[-1])
 
-    print(AA)
-    AA.sort()
-    print(AA)
+    def is_ok(l):
+        cnt = 0
+        c = 0
+        for i in range(N):
+            if cnt < K and A[i] - c >= l:
+                cnt += 1
+                c = A[i]
+        # 最後の切れ端の長さチェック
+        return cnt == K and L - c >= l
+
+    ng = L
+    ok = 0
+    while abs(ok - ng) > 1:
+        m = (ng + ok) // 2
+        if is_ok(m):
+            ok = m
+        else:
+            ng = m
+    print(ok)
 
 if __name__ == '__main__':
     resolve()
