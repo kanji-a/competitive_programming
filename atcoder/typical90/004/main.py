@@ -13,7 +13,21 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    H, W = LI()
+    A = [LI() for _ in range(H)]
+
+    sum_r = [sum(i) for i in A]
+    sum_c = [sum(A[j][i] for j in range(H)) for i in range(W)]
+    # print(sum_r)
+    # print(sum_c)
+
+    ans = [[0] * W for _ in range(H)]
+    for i in range(H):
+        for j in range(W):
+            ans[i][j] = sum_r[i] + sum_c[j] - A[i][j]
+
+    for i in ans:
+        print(*i)
 
 if __name__ == '__main__':
     resolve()
