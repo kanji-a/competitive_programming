@@ -13,7 +13,21 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    S = SS()
+
+    s = 'atcoder'
+    dp = [[0] * (len(s) + 1) for _ in range(N + 1)]
+    for i in range(len(s) - 1, N):
+        for j in range(len(s)):
+            if S[i] == s[j]:
+                dp[i+1][j+1] = max(dp[i][j+1], dp[i+1][j], dp[i][j]) * 2 + 1
+                dp[i+1][j+1] %= MOD
+            else:
+                dp[i+1][j+1] = max(dp[i][j+1], dp[i+1][j], dp[i][j])
+    for i in dp:
+        print(i)
+    print(dp[-1][-1])
 
 if __name__ == '__main__':
     resolve()

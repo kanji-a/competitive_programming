@@ -13,7 +13,15 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    A = LI()
+    A.sort()
+    Q = I()
+    for _ in range(Q):
+        B = I()
+        idx = bisect.bisect_left(A, B)
+        ans = min(abs(A[max(idx-1, 0)] - B), abs(A[min(idx, N-1)] - B))
+        print(ans)
 
 if __name__ == '__main__':
     resolve()
