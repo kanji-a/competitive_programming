@@ -18,15 +18,19 @@ def resolve():
 
     s = 'atcoder'
     dp = [[0] * (len(s) + 1) for _ in range(N + 1)]
-    for i in range(len(s) - 1, N):
+    for i in range(N + 1):
+        dp[i][0] = 1
+
+    for i in range(N):
         for j in range(len(s)):
             if S[i] == s[j]:
-                dp[i+1][j+1] = max(dp[i][j+1], dp[i+1][j], dp[i][j]) * 2 + 1
+                dp[i+1][j+1] = dp[i][j+1] + dp[i][j]
                 dp[i+1][j+1] %= MOD
             else:
-                dp[i+1][j+1] = max(dp[i][j+1], dp[i+1][j], dp[i][j])
-    for i in dp:
-        print(i)
+                dp[i+1][j+1] = dp[i][j+1]
+    # for i in dp:
+    #     print(i)
+
     print(dp[-1][-1])
 
 if __name__ == '__main__':
