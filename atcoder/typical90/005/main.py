@@ -13,7 +13,21 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N, B, K = LI()
+    c = LI()
+
+    dp = [[0] * B for _ in range(N + 1)]
+    dp[0][0] = 1
+
+    for i in range(N):
+        for j in range(B):
+            for k in c:
+                dp[i+1][(j*10+k)%B] += dp[i][j]
+                dp[i+1][(j*10+k)%B] %= MOD
+    # for i in dp:
+    #     print(i)
+
+    print(dp[-1][0])
 
 if __name__ == '__main__':
     resolve()
