@@ -12,22 +12,45 @@ def LI_(): return [int(x)-1 for x in input().split()]
 def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
+def matMulMod(A, B, l, m, n):
+    A_h = len(A)
+    B_h = len(B)
+    B_w = len(B[0])
+    C = [[0] * n for _ in range(l)]
+    for i in range(l):
+        for j in range(n):
+            for k in range(m):
+                C[i][j] += A[i][k] * B[k][j]
+                C[i][j] %= MOD
+    return C
+
+def matPowMod(A, s, n):
+    B = [[int(i == j) for j in range(s)] for i in range(s)]
+    while n > 0:
+        if n & 1:
+            B = matMulMod(B, A, s, s, s)
+        A = matMulMod(A, A, s, s, s)
+        n >>= 1
+    return B
+    
 def resolve():
     N, B, K = LI()
     c = LI()
 
-    dp = [[0] * B for _ in range(N + 1)]
-    dp[0][0] = 1
+    tmp = [[0] for _ in range(B)]
+    tmp[0][0] = 1
 
-    for i in range(N):
-        for j in range(B):
-            for k in c:
-                dp[i+1][(j*10+k)%B] += dp[i][j]
-                dp[i+1][(j*10+k)%B] %= MOD
-    # for i in dp:
+    mat = [[0] * B for _ in range(B)]
+    for i in range(B):
+        for j in c:
+            mat[i][(i*10+j)%B] += 1
+    # for i in mat:
     #     print(i)
 
-    print(dp[-1][0])
+    matpow = matPowMod(mat, B, N)
+    prod = matMulMod(matpow, tmp, B, B, 1)
+
+    print(prod[0][0])
 
 if __name__ == '__main__':
     resolve()
