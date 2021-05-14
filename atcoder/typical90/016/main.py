@@ -13,7 +13,18 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    A, B, C = LI()
+
+    ans = N
+    for i in range(0, 10000):
+        for j in range(0, 10000 - i):
+            tmp = N - i * A - j * B
+            if tmp >= 0 and tmp % C == 0:
+                k = tmp // C
+                ans = min(i + j + k, ans)
+
+    print(ans)
 
 if __name__ == '__main__':
     resolve()

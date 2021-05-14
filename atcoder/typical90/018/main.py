@@ -13,7 +13,16 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    T = I()
+    L, X, Y = LI()
+    Q = I()
+    for _ in range(Q):
+        E = I()
+        theta = 2 * math.pi * E / T
+        y = -L / 2 * math.sin(theta)
+        z = L / 2 * (1 - math.cos(theta))
+        ans = math.atan2(z, (X ** 2 + (Y - y) ** 2) ** 0.5) * 180 / math.pi
+        print(ans)
 
 if __name__ == '__main__':
     resolve()

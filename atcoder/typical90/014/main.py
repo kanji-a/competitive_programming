@@ -13,7 +13,12 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    A = LI()
+    B = LI()
+
+    ans = sum(abs(i - j) for i, j in zip(sorted(A), sorted(B)))
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
