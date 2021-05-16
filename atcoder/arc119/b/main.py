@@ -14,23 +14,11 @@ def LSS(): return input().split()
 
 def resolve():
     N = I()
-    S = list(SS())
-    T = list(SS())
+    S = SS()
+    T = SS()
 
-    cnt_S = S.count('0')
-    cnt_T = T.count('0')
-    # print(cnt_S, cnt_T)
-
-    # 1の数が一致していることが可能どうかの必要十分条件
-    if cnt_S != cnt_T:
-        print(-1)
-        return
-    if S == T:
-        print(0) 
-        return
-
-    idx_0_S = collections.deque()
-    idx_0_T = collections.deque()
+    idx_0_S = []
+    idx_0_T = []
     for i in range(N):
         if S[i] == '0':
             idx_0_S.append(i)
@@ -39,15 +27,11 @@ def resolve():
     # print(idx_0_S)
     # print(idx_0_T)
 
-    ans = 0
-    for i in range(N):
-        if idx_0_S:
-            if idx_0_S[0] != idx_0_T[0]:
-                ans += 1
-            idx_0_S.popleft()
-            idx_0_T.popleft()
+    if len(idx_0_S) != len(idx_0_T):
+        print(-1)
+        return
 
-    
+    ans = len([(i, j) for i, j in zip(idx_0_S, idx_0_T) if i != j])
     print(ans)
 
 if __name__ == '__main__':
