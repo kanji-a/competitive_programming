@@ -25,12 +25,8 @@ def resolve():
             acm[i+1] = acm[i] - A[i]
     # print(acm)
 
-    d = collections.Counter()
-    ans = 0
-    # 累積和列の今見ている項より左に出てきた同じ値の項の個数をansに加算
-    for i in range(N + 1):
-        ans += d[acm[i]]
-        d[acm[i]] += 1
+    d = collections.Counter(acm)
+    ans = sum(i * (i - 1) // 2 for i in d.values())
 
     print(ans)
 
