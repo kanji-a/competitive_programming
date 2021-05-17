@@ -17,23 +17,20 @@ def resolve():
     A = LI()
 
     # lから奇数番目の和と偶数番目の和が等しいことが0にできる必要十分条件
-    acm = [0]
-    d = collections.defaultdict(list)
+    acm = [0] * (N + 1)
     for i in range(N):
         if i % 2 == 0:
-            acm.append(acm[-1] + A[i])
+            acm[i+1] = acm[i] + A[i]
         else:
-            acm.append(acm[-1] - A[i])
-        d[acm[-1]].append(i)
-    print(acm)
-    print(d)
+            acm[i+1] = acm[i] - A[i]
+    # print(acm)
+
+    d = collections.Counter()
     ans = 0
-    for i in range(N):
-        s = acm[i+1]
-        idx = bisect.bisect_left(d[s], i + 1)
-        print(idx)
-        ans += len(d[s]) - idx
-        print('ans', ans)
+    # 累積和列の今見ている項より左に出てきた同じ値の項の個数をansに加算
+    for i in range(N + 1):
+        ans += d[acm[i]]
+        d[acm[i]] += 1
 
     print(ans)
 
