@@ -12,8 +12,16 @@ def LI_(): return [int(x)-1 for x in input().split()]
 def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
+def my_gcd(*numbers):
+    return functools.reduce(math.gcd, numbers)
+
 def resolve():
-    pass
+    ABC = LI()
+
+    gcd = my_gcd(*ABC)
+
+    ans = sum((i // gcd) - 1 for i in ABC)
+    print(ans)
 
 if __name__ == '__main__':
     resolve()

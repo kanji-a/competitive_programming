@@ -13,7 +13,12 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    a, b, c = LI()
+
+    if a < c ** b:
+        print('Yes')
+    else:
+        print('No')
 
 if __name__ == '__main__':
     resolve()

@@ -13,7 +13,15 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N, K = LI()
+    A = LI()
+    B = LI()
+
+    d = sum(abs(i - j) for i, j in zip(A, B))
+    if d <= K and (K - d) % 2 == 0:
+        print('Yes')
+    else:
+        print('No')
 
 if __name__ == '__main__':
     resolve()

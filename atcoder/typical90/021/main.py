@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import bisect, collections, copy, functools, heapq, itertools, math, operator, string, sys, typing
+from atcoder.scc import SCCGraph
 input = lambda: sys.stdin.readline().rstrip()
 sys.setrecursionlimit(10 ** 7)
 INF = float('inf')
@@ -13,7 +14,14 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N, M = LI()
+    scc = SCCGraph(N)
+    for _ in range(M):
+        A, B = LI_()
+        scc.add_edge(A, B)
+
+    ans = sum(len(i) * (len(i) - 1) // 2 for i in scc.scc())
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
