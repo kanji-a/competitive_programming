@@ -13,7 +13,23 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N, M = LI()
+    LR = [LI() for _ in range(M)]
+
+    ans = 0
+    for i in range(M - 1):
+        for j in range(i + 1, M):
+            aL, aR = LR[i]
+            if aL > aR:
+                aL, aR = aR, aL
+            bL, bR = LR[j]
+            if bL > bR:
+                bL, bR = bR, bL
+            # print(aL, aR, bL, bR)
+            if aL < bL < aR < bR or bL < aL < bR < aR:
+                ans += 1
+
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
