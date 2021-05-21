@@ -13,7 +13,13 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    s = set()
+    for i in range(N):
+        S = SS()
+        if S not in s:
+            print(i + 1)
+        s.add(S)
 
 if __name__ == '__main__':
     resolve()
