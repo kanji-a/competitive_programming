@@ -14,29 +14,46 @@ def LSS(): return input().split()
 
 def resolve():
     N = I()
-    P = [-1] * N
-    P_ = LI_()
+    P = LI_()
+    G = collections.defaultdict(list)
     for i in range(N - 1):
-        P[i+1] = P_[i]
+        G[i+1].append(P[i])
+        G[P[i]].append(i+1)
+    # print(G)
 
-    print(P)
-    d = [0] * N
-    def f(c):
-        if c != 0 and d[c] == 0:
-            d[c] = f(P[c]) + 1
-        return d[c]
+    cnt = 0
+    ord = [[0] * 2 for _ in range(N)]
+    depth = [-1] * N
+    def dfs(c, d):
+        nonlocal cnt
+        depth[c] = d
+        ord[c][0] = cnt
+        cnt += 1
+        for n in G[c]:
+            if depth[n] == -1:
+                dfs(n, d + 1)
+        ord[c][1] = cnt
+        cnt += 1
 
+    dfs(0, 0)
+    # print(depth)
+    # print(ord)
+    depth_ord = [[] for _ in range(N)]
     for i in range(N):
-        f(i)
-
-    print(d)
+        depth_ord[depth[i]].append(ord[i][0])
+        depth_ord[depth[i]].append(ord[i][1])
+    # print(depth_ord)
 
     Q = I()
-    # 2つの条件を満たすものをカウント
-    # ある頂点の子孫で深さがxのもの
+    # inとoutがUのinとoutの間にある頂点を列挙
     for _ in range(Q):
         U, D = LI()
         U -= 1
+        a = depth_ord[D]
+        idx_l = bisect.bisect_left(a, ord[U][0] - 1)
+        idx_r = bisect.bisect_left(a, ord[U][1] + 1)
+        # print(a, ord[U], idx_l, idx_r)
+        print((idx_r - idx_l) // 2)
 
 if __name__ == '__main__':
     resolve()
