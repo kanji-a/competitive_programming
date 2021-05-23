@@ -17,15 +17,9 @@ def resolve():
     A = LI()
     B = LI()
     C = LI_()
-    A.sort()
+    cnt = collections.Counter(A)
 
-    ans = 0
-    for c in C:
-        b = B[c]
-        idx_l = bisect.bisect_left(A, b)
-        idx_r = bisect.bisect_right(A, b)
-        ans += idx_r - idx_l
-
+    ans = sum(cnt[B[c]] for c in C)
     print(ans)
 
 if __name__ == '__main__':
