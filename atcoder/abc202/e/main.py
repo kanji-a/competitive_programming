@@ -22,38 +22,39 @@ def resolve():
     # print(G)
 
     cnt = 0
-    ord = [[0] * 2 for _ in range(N)]
     depth = [-1] * N
+    ord_in = [0] * N
+    ord_out = [0] * N
+    depth_ord_in = [[] for _ in range(N)]
+    depth_ord_out = [[] for _ in range(N)]
     def dfs(c, d):
         nonlocal cnt
         depth[c] = d
-        ord[c][0] = cnt
+        depth_ord_in[d].append(cnt)
+        ord_in[c] = cnt
         cnt += 1
         for n in G[c]:
             if depth[n] == -1:
                 dfs(n, d + 1)
-        ord[c][1] = cnt
+        depth_ord_out[d].append(cnt)
+        ord_out[c] = cnt
         cnt += 1
 
     dfs(0, 0)
-    # print(depth)
-    # print(ord)
-    depth_ord = [[] for _ in range(N)]
-    for i in range(N):
-        depth_ord[depth[i]].append(ord[i][0])
-        depth_ord[depth[i]].append(ord[i][1])
-    # print(depth_ord)
+    # print(depth_ord_in)
+    # print(depth_ord_out)
 
     Q = I()
     # inとoutがUのinとoutの間にある頂点を列挙
     for _ in range(Q):
         U, D = LI()
         U -= 1
-        a = depth_ord[D]
-        idx_l = bisect.bisect_left(a, ord[U][0] - 1)
-        idx_r = bisect.bisect_left(a, ord[U][1] + 1)
-        # print(a, ord[U], idx_l, idx_r)
-        print((idx_r - idx_l) // 2)
+        idx_l = bisect.bisect_left(depth_ord_in[D], ord_in[U])
+        idx_r = bisect.bisect_right(depth_ord_out[D], ord_out[U])
+        # print(depth_ord_in[D], ord_in[U])
+        # print(depth_ord_out[D], ord_out[U])
+        # print(idx_l, idx_r)
+        print(max(idx_r - idx_l, 0))
 
 if __name__ == '__main__':
     resolve()
