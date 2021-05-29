@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import bisect, collections, copy, functools, heapq, itertools, math, operator, string, sys, typing
-from atcoder.mincostflow import MCFGraph
 input = lambda: sys.stdin.readline().rstrip()
 sys.setrecursionlimit(10 ** 7)
 INF = float('inf')
@@ -15,27 +14,36 @@ def LSS(): return input().split()
 
 def resolve():
     N = I()
-    ac = [LSS() for _ in range(2 * N)]
+    ac = []
+    cnt = collections.Counter()
+    for _ in range(2 * N):
+        a, c = LSS()
+        a = int(a)
+        ac.append((a, c))
+        cnt[c] += 1
 
-    # 2分マッチング
-    mcfg = MCFGraph(4 * N + 2)
-    for i in range(2 * N):
-        mcfg.add_edge(4 * N, i, 1, 0)
-        mcfg.add_edge(2 * N + i, 4 * N + 1, 1, 0)
-    for i in range(2 * N):
-        for j in range(2 * N):
-            if i == j:
-                continue
-            k = 2 * N + j
-            if ac[i][1] == ac[j][1]:
-                mcfg.add_edge(i, k, 1, 0)
-            else:
-                mcfg.add_edge(i, k, 1, abs(int(ac[i][0]) - int(ac[j][0])))
+    # 基本的に同じ色同士を組ませる
+    # 違う色同士の組は各種高々1つずつ なぜなら2つあったらバラして同色同士を組ませられるから
+    # Bが偶数個の場合、条件よりRとGは奇数個 このとき違う色の組はRGかRB, GBの2通り
+    if cnt['R'] % 2 == 0 and cnt['G'] % 2 == 0 and cnt['B'] % 2 == 0:
+        print(0)
+        return
 
-    # print(mcfg.edges())
-    f = mcfg.flow(4 * N, 4 * N + 1, 2 * N)
-    # print(mcfg.edges())
-    print(f[1] // 2)
+    ac.sort(key=lambda x: x[0])
+    # print(ac)
+    diff = {'BR': INF, 'GR': INF, 'BG': INF}
+    for i in range(2 * N - 1):
+        if ac[i][1] != ac[i+1][1]:
+            pair = ''.join(sorted([ac[i][1], ac[i+1][1]]))
+            diff[pair] = min(ac[i+1][0] - ac[i][0], diff[pair])
+    # print(diff)
+
+    if cnt['R'] % 2 == 0:
+        print(min(diff['BG'], diff['BR'] + diff['GR']))
+    if cnt['G'] % 2 == 0:
+        print(min(diff['BR'], diff['GR'] + diff['BG']))
+    if cnt['B'] % 2 == 0:
+        print(min(diff['GR'], diff['BR'] + diff['BG']))
 
 if __name__ == '__main__':
     resolve()
