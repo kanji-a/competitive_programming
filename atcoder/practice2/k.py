@@ -3,7 +3,7 @@ import atcoder.lazysegtree as lazysegtree
 input = lambda: sys.stdin.readline().rstrip() 
 sys.setrecursionlimit(10**7)
 INF = float('inf')
-MOD = 10**9+7
+MOD = 998244353
 def I(): return int(input())
 def F(): return float(input())
 def SS(): return input()
@@ -16,7 +16,13 @@ def resolve():
     N, Q = LI()
     a = LI()
 
-    lst = lazysegtree.LazySegTree()
+    op = lambda x, y: (x + y) % MOD
+    e = 0
+    mapping = 
+    composition = 
+    id_ = 
+    v = 
+    lst = lazysegtree.LazySegTree(op, e, mapping, composition, id_, v)
 
 if __name__ == '__main__':
     resolve()
