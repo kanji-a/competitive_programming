@@ -13,7 +13,10 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    H, W = LI()
+
+    ans = ((H + 1) // 2) * ((W + 1) // 2)
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
