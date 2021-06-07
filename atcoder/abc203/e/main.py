@@ -19,28 +19,28 @@ def resolve():
         X, Y = LI()
         XY[X].add(Y)
 
-    X = [0] + list(sorted(XY.keys()))
+    X = list(sorted(XY.keys()))
 
-    # Xごとの到達可能なY座標
-    ans = {k:set() for k in X}
-    ans[0].add(N)
+    # 到達可能なY座標
+    ans = set()
+    ans.add(N)
 
-    for i in range(len(X) - 1):
-        # 到達可能マスのみ管理するので、配るDP
-        # 到達可能なマスの、次のマスにポーンがなければ到達可能
-        # 到達可能なマスの、次の両脇のマスにポーンがあれば到達可能
-        for j in ans[X[i]]:
-            if j not in XY[X[i+1]]:
-                ans[X[i+1]].add(j)
-            if 0 <= j - 1 and j - 1 in XY[X[i+1]]:
-                ans[X[i+1]].add(j - 1)
-            if j + 1 < 2 * N and j + 1 in XY[X[i+1]]:
-                ans[X[i+1]].add(j + 1)
-    # for i in X:
-    #     print(i, ans[i])
+    for i in range(len(X)):
+        # ポーンがないマスの到達は手前そのまま
+        # ポーンがあるマスの斜め前に到達可能なら到達可能
+        ok = set()
+        ng = set()
+        for j in XY[X[i]]:
+            # print(i, j, ans)
+            if 0 <= j - 1 and j - 1 in ans or j + 1 <= 2 * N and j + 1 in ans:
+                ok.add(j)
+            else:
+                ng.add(j)
+        ans -= ng
+        ans |= ok
+        # print(ans)
 
-    print(len(ans[X[-1]]))
-
+    print(len(ans))
 
 if __name__ == '__main__':
     resolve()
