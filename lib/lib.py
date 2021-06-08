@@ -190,21 +190,19 @@ def binsearch(a, x):
             ng = m
     return ok
 
-def dijkstra(G, N, s):
-    que = []
-    d = [INF] * N
-    d[s] = 0
-    heapq.heappush(que, (d[s], s))
-
+def dijkstra(G, V, s):
+    dist = [INF] * V
+    dist[s] = 0
+    que = [(dist[s], s)]
     while que:
-        p = heapq.heappop(que)
-        v = p[1]
-        if d[v] < p[0]: continue
-        for e in G[v]:
-            if d[e[0]] > d[v] + e[1]:
-                d[e[0]] = d[v] + e[1]
-                heapq.heappush(que, (d[e[0]], e[0]))
-    return d
+        du, u = heapq.heappop(que)
+        if dist[u] < du: continue
+        for v, cost in G[u]:
+            dv = dist[u] + cost
+            if dist[v] > dv:
+                dist[v] = dv
+                heapq.heappush(que, (dv, v))
+    return dist
 
 def warshall_floyd(d):
     V = len(d)
