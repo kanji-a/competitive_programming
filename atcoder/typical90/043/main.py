@@ -13,7 +13,42 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    H, W = LI()
+    rs, cs = LI_()
+    rt, ct = LI_()
+    S = [SS() for _ in range(H)]
+
+    d = ((1, 0), (0, 1), (-1, 0), (0, -1))
+
+    # 01BFS
+    # そのマスに進入した方向 ↓→↑←の順
+    dist = [[[INF] * 4 for _ in range(W)] for _ in range(H)]
+    for i in range(4):
+        dist[rs][cs][i] = 0
+    que = collections.deque()
+    que.append((rs, cs))
+
+    while que:
+        cy, cx = que.popleft()
+        for i in range(4):
+            dy, dx = d[i]
+            ny = cy + dy
+            nx = cx + dx
+            if 0 <= ny < H and 0 <= nx < W and S[ny][nx] == '.':
+                for j in range(4):
+                    if i == j:
+                        if dist[ny][nx][i] > dist[cy][cx][j]:
+                            dist[ny][nx][i] = dist[cy][cx][j]
+                            que.appendleft((ny, nx))
+                    else:
+                        if dist[ny][nx][i] > dist[cy][cx][j] + 1:
+                            dist[ny][nx][i] = dist[cy][cx][j] + 1
+                            que.append((ny, nx))
+    # for i in dist:
+    #     print(i)
+
+    ans = min(dist[rt][ct])
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
