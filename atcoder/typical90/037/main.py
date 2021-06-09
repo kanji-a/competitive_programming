@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import bisect, collections, copy, functools, heapq, itertools, math, operator, string, sys, typing
+from atcoder.segtree import SegTree
 input = lambda: sys.stdin.readline().rstrip()
 sys.setrecursionlimit(10 ** 7)
 INF = float('inf')
@@ -16,23 +17,19 @@ def resolve():
     W, N = LI()
     LRV = [LI() for _ in range(N)]
 
-    dp = [-1] * (W + 1)
-    for i in range(N):
-        dp[0] = 0
+    dp = SegTree(max, -1, W + 1)
+    dp.set(0, 0)
 
     for i in range(N):
         L, R, V = LRV[i]
         for j in range(W, 0, -1):
-            tmp = -1
-            for k in range(L, R + 1):
-                if 0 <= j - k and dp[j-k] >= 0:
-                    tmp = max(dp[j-k] + V, tmp)
-            # セグ木で区間maxを求める
-            if dp[j] >= 0:
-                tmp = max(dp[j], tmp)
-            dp[j] = tmp
+            tmp = dp.prod(max(j - R, 0), max(j - L + 1, 0))
+            if tmp == -1:
+                dp.set(j, max(tmp, dp.get(j)))
+            else:
+                dp.set(j, max(tmp + V, dp.get(j)))
 
-    print(dp[-1])
+    print(dp.get(W))
 
 if __name__ == '__main__':
     resolve()
