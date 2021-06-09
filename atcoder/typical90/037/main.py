@@ -16,25 +16,23 @@ def resolve():
     W, N = LI()
     LRV = [LI() for _ in range(N)]
 
-    dp = [[-1] * (W + 1) for _ in range(N + 1)]
+    dp = [-1] * (W + 1)
     for i in range(N):
-        dp[i][0] = 0
+        dp[0] = 0
 
     for i in range(N):
         L, R, V = LRV[i]
-        for j in range(1, W + 1):
+        for j in range(W, 0, -1):
             tmp = -1
             for k in range(L, R + 1):
-                if 0 <= j - k and dp[i][j-k] >= 0:
-                    tmp = max(dp[i][j-k] + V, tmp)
-            if dp[i][j] >= 0:
-                tmp = max(dp[i][j], tmp)
-            dp[i+1][j] = tmp
-    # for i in dp:
-    #     print(i)
+                if 0 <= j - k and dp[j-k] >= 0:
+                    tmp = max(dp[j-k] + V, tmp)
+            # セグ木で区間maxを求める
+            if dp[j] >= 0:
+                tmp = max(dp[j], tmp)
+            dp[j] = tmp
 
-    print(dp[-1][-1])
-
+    print(dp[-1])
 
 if __name__ == '__main__':
     resolve()
