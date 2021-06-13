@@ -16,29 +16,15 @@ def resolve():
     N, Q = LI()
     A = LI()
 
-    AA = []
-    if A[0] != 1:
-        AA.append(1)
-    for i in range(N - 1):
-        if A[i] + 1 != A[i+1]:
-            AA.append(A[i] + 1)
-    AA.append(A[-1] + 1)
-    print(AA)
-
-    index = [1]
-    for i in range(len(AA) - 1):
-        index.append(AA[i+1] - AA[i])
-    print(index)
+    C = []
+    for i in range(N):
+        C.append(A[i] - i - 1)
+    # print(C)
 
     for _ in range(Q):
         K = I()
-        idx = bisect.bisect_left(index, K)
-        # idx = bisect.bisect_right(index, K)
-        print(idx)
-        print(K + AA[idx] - index[idx])
-        # print(K + AA[idx-1] - index[idx-1])
-
-
+        idx = bisect.bisect_left(C, K)
+        print(K + idx)
 
 if __name__ == '__main__':
     resolve()
