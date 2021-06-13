@@ -17,16 +17,6 @@ def resolve():
     
     abs_A = abs(A)
     abs_B = abs(B)
-    # if A == B == 0 or A == B == 1:
-    #     print('=')
-    # elif A >= 2 and B >= 2:
-    #     if A < B:
-    #         print('<')
-    #     elif A > B:
-    #         print('>')
-    #     else:
-    #         print('=')
-    # elif A == -1 and B == -1:
 
     if A >= 0 and B >= 0:
         if A < B:
@@ -70,8 +60,6 @@ def resolve():
                 print('=')
         else:
             print('<')
-
-
 
 if __name__ == '__main__':
     resolve()
