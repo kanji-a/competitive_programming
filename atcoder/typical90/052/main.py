@@ -13,7 +13,14 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    A = [LI() for _ in range(N)]
+
+    ans = 1
+    for i in range(N):
+        ans *= sum(A[i])
+        ans %= MOD
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
