@@ -4,6 +4,7 @@ input = lambda: sys.stdin.readline().rstrip()
 sys.setrecursionlimit(10 ** 7)
 INF = float('inf')
 MOD = 10 ** 9 + 7
+EPS = 1e-6
 def I(): return int(input())
 def F(): return float(input())
 def SS(): return input()
@@ -13,69 +14,60 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    # 全部の座標を足した点の位置が合うように平行移動
     N = I()
     ab = [LI() for _ in range(N)]
     cd = [LI() for _ in range(N)]
+
+    # 重心の座標が整数になるようにする
     for i in range(N):
         a, b = ab[i]
         ab[i] = [a * N, b * N]
         c, d = cd[i]
         cd[i] = [c * N, d * N]
 
+    # 重心が原点になるように平行移動
     ga = sum(i for i, _ in ab) // N
     gb = sum(i for _, i in ab) // N
     gc = sum(i for i, _ in cd) // N
     gd = sum(i for _, i in cd) // N
-
     cd_set = set()
     for i in range(N):
         a, b = ab[i]
         ab[i] = [a - ga, b - gb]
         c, d = cd[i]
         cd[i] = [c - gc, d - gd]
-        cd_set.add((c - gc, d - gd))
     # print(ab)
-    # print(cd_set)
-
-    # for i in range(N):
-    #     print(ab[i])
-    # for i in range(N):
-    #     print(cd[i])
+    # print(cd)
 
     ans = 'No'
-
-    # 全てのSの点に対して
-    for i in range(N):
-        a, b = ab[i]
-        # あるTの点を選んで
-        for j in range(N):
-            # print('ij', i, j)
-            c, d = cd[j]
-            # 原点からの距離が同じであれば
-            if a ** 2 + b ** 2 == c ** 2 + d ** 2:
-                ll = a ** 2 + b ** 2
-                if ll == 0:
-                    ans = 'Yes'
+    # Sの最初の点に対して
+    a, b = ab[0]
+    ll = a ** 2 + b ** 2
+    # あるTの点を選んで
+    for c, d in cd:
+        # print(c, d, ll)
+        # 原点からの距離が同じであれば
+        if c ** 2 + d ** 2 == ll:
+            if ll == 0:
+                print('Yes')
+                return
+            # 回転行列を作成し
+            # 全てのSを回転させた点が全てTに入っていればOK
+            angle = math.atan2(d, c) - math.atan2(b, a)
+            is_ok = True
+            for k in range(N):
+                aa = math.cos(angle) * ab[k][0] - math.sin(angle) * ab[k][1]
+                bb = math.sin(angle) * ab[k][0] + math.cos(angle) * ab[k][1]
+                is_aabb_in_cd = False
+                for c, d in cd:
+                    if abs(c - aa) <= EPS and abs(d - bb) <= EPS:
+                        is_aabb_in_cd = True
+                if not is_aabb_in_cd:
+                    is_ok = False
                     break
-                # 回転行列を作成し
-                # 全てのSを回転させた点が全てTに入っていればOK
-                # is_ok = True
-                aabb_set = set()
-                cos_ll = a * c + b * d
-                # sin_ll = int((ll ** 2 - cos_ll ** 2) ** 0.5)
-                sin_ll = math.isqrt(ll ** 2 - cos_ll ** 2)
-                for k in range(N):
-                    aa = (cos_ll * ab[k][0] - sin_ll * ab[k][1]) // ll
-                    bb = (sin_ll * ab[k][0] + cos_ll * ab[k][1]) // ll
-                    aabb_set.add((aa, bb))
-                    # if (aa, bb) not in cd_set:
-                    #     is_ok = False
-                    #     break
-                # if is_ok:
-                # print('aabb', aabb_set)
-                if aabb_set == cd_set:
-                    ans = 'Yes'
+            if is_ok:
+                ans = 'Yes'
+                break
 
     print(ans)
 
