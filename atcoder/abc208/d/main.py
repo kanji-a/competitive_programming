@@ -14,44 +14,25 @@ def LSS(): return input().split()
 
 def resolve():
     N, M = LI()
-    G = collections.defaultdict(list)
+    d = [[INF] * N for _ in range(N)]
+    for i in range(N):
+        d[i][i] = 0
     for _ in range(M):
         A, B, C = LI()
         A -= 1
         B -= 1
-        G[A].append((B, C))
-
-    # s,t間のmaxがわかればよい
-    # max_on_path = [[0] * N for _ in range(N)]
-    # for i in range(N):
-    #     dist[i][i] = 0
-        # max_on_path[i][i] = -1
+        d[A][B] = C
 
     ans = 0
+    for k in range(N):
+        nxt = [[0] * N for _ in range(N)]
+        for s in range(N):
+            for t in range(N):
+                nxt[s][t] = min(d[s][t], d[s][k] + d[k][t])
+                if nxt[s][t] < INF:
+                    ans += nxt[s][t]
+        d = nxt
 
-    def bfs(i, k):
-        dist = [[0] * N for _ in range(N)]
-        que = collections.deque([i])
-        while que:
-            c = que.popleft()
-            for n, d in G[c]:
-                if dist[i][n] == 0:
-                    dist[i][n] = dist[i][c] + d
-                    if n <= k:
-                        que.append(n)
-        print(i, k)
-        for j in dist:
-            print(j)
-        nonlocal ans
-        ans += sum(dist[i])
-
-    for i in range(N):
-        for k in range(N):
-            bfs(i, k)
-    # for i in dist:
-    #     print(i)
-    # for i in max_on_path:
-    #     print(i)
     print(ans)
 
 if __name__ == '__main__':
