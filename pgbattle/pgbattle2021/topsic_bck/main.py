@@ -13,21 +13,7 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    N = I()
-    AB = [LI() for _ in range(N)]
-    
-    time_acm = [0] * (N + 1)
-    for i in range(N):
-        A, B = AB[i]
-        time_acm[i+1] = time_acm[i] + A / B
-    # print(time_acm)
-
-    half = time_acm[-1] / 2
-
-    idx = bisect.bisect_left(time_acm, half)
-    # print(idx)
-    ans = sum([i for i, _ in AB][:idx-1]) + (half - time_acm[idx-1]) * AB[idx-1][1]
-    print(ans)
+    pass
 
 if __name__ == '__main__':
     resolve()

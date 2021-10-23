@@ -13,32 +13,7 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    N, M = LI()
-    AB = [LI_() for _ in range(M)]
-    AB.sort()
-    deg = [0] * N
-    G = collections.defaultdict(list)
-    for A, B in AB:
-        G[A].append(B)
-        deg[B] += 1
-
-    ans = []
-    hq = []
-    for i in range(N):
-        if deg[i] == 0:
-            heapq.heappush(hq, i)
-    while hq:
-        c = heapq.heappop(hq)
-        ans.append(c + 1)
-        for n in G[c]:
-            deg[n] -= 1
-            if deg[n] == 0:
-                heapq.heappush(hq, n)
-
-    if len(ans) == N:
-        print(*ans)
-    else:
-        print(-1)
+    pass
 
 if __name__ == '__main__':
     resolve()
