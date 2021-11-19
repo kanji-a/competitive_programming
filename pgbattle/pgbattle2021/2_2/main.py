@@ -16,17 +16,15 @@ def resolve():
     T = I()
     for _ in range(T):
         N, M = LI()
-
         ans_min = max(N - M, 1)
 
         # 1つのなるべく大きな完全グラフを作る
         # M本の辺を使い切るのにいくつの頂点が必要か
-        # i * (i - 1) // 2 <= Mを満たす最小のiを求める
-        i_tmp = int((2 * M) ** 0.5)
-        i = i_tmp
-        if i_tmp * (i_tmp + 1) // 2 > M:
-            i -= 1
-        ans_max = N - i
+        # i * (i - 1) // 2 >= Mを満たす最小のiを求める
+        i = int((2 * M) ** 0.5) + 1
+        if i * (i - 1) // 2 < M:
+            i += 1
+        ans_max = N - i + 1
 
         print(ans_min, ans_max)
 
