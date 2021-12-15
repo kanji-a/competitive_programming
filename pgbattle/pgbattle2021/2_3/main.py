@@ -22,7 +22,7 @@ def resolve():
     # aは2の累乗という条件があるので、ベスト1が1人、ベストxがx//2人であること、でよい。
     cnt_ok = {2 ** (i + 1): 2 ** i for i in range(N)}
     cnt_ok[1] = 1
-    print(cnt, cnt_ok)
+    # print(cnt, cnt_ok)
     if cnt != cnt_ok:
         print(-1)
         sys.exit()
@@ -30,13 +30,21 @@ def resolve():
     # 順位の並びを決めてから、その順位になる人の番号を割り振る
     # 8人だとしたら、順位を1 8 4 8 2 8 4 8のような並び方にしたい
     rank = [0] * 2 ** N
+    rank[0] = 1
+    # i: 順位
+    for i in range(1, N + 1):
+        # j: インデックス
+        for j in range(2 ** (N - i), 2 ** N, 2 ** (N + 1 - i)):
+            rank[j] = 2 ** i
+    # print(rank)
 
     # 順位: 人の番号一覧 という辞書を作り、答えを作る
     dict_rank_num = {k: [i[0] for i in g] for k, g in itertools.groupby(sorted(enumerate(a), key=lambda x: x[1]), key=lambda x: x[1])}
-    print(dict_rank_num)
+    # print(dict_rank_num)
+
     ans = [0] * 2 ** N
     for i in range(2 ** N):
-        ans[i] = dict_rank_num[rank[i]].pop()
+        ans[i] = dict_rank_num[rank[i]].pop() + 1
     print(*ans)
 
 if __name__ == '__main__':
