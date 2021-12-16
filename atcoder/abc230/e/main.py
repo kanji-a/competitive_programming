@@ -15,19 +15,21 @@ def LSS(): return input().split()
 def resolve():
     N = I()
 
-    # N = 16
-    # for i in range(1, N + 1):
-    #     print(i, N // i)
+    # デバッグ用
+    # if N <= 20:
+    #     for i in range(1, N + 1):
+    #         print(i, N // i)
 
-    ans = 0
+    border = math.isqrt(N)
 
-    border = int(N ** 0.5)
     # N // i の値は iがN**0.5までは1個ずつ
-    ans += sum(N // i for i in range(1, border + 1))
+    high_val_sum = sum(N // i for i in range(1, border + 1))
 
     # j = N // i の値は iがN**0.5からは1～N**0.5になる
-    ans += sum(j * (N // j - N // (j + 1)) for j in range(1, border))
+    low_val_sum = sum(j * (N // j - N // (j + 1)) for j in range(1, border + 1))
 
+    # print(border, high_val_sum, low_val_sum)
+    ans = high_val_sum + low_val_sum - (border if N == border ** 2 else 0)
     print(ans)
 
 if __name__ == '__main__':
