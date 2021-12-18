@@ -22,14 +22,15 @@ def resolve():
 
     border = math.isqrt(N)
 
-    # N // i の値は iがN**0.5までは1個ずつ
+    # N // i の値は iがborder(=N**0.5)までは1個ずつ
     high_val_sum = sum(N // i for i in range(1, border + 1))
 
-    # j = N // i の値は iがN**0.5からは1～N**0.5になる
-    low_val_sum = sum(j * (N // j - N // (j + 1)) for j in range(1, border + 1))
+    # j = N // i の値は iがborder+1からは1～N//(border+1)(≒N**0.5)になる
+    # 1～N**0.5と考えたらWAになるケースもあった
+    low_val_sum = sum(j * (N // j - N // (j + 1)) for j in range(1, N // (border + 1) + 1))
 
     # print(border, high_val_sum, low_val_sum)
-    ans = high_val_sum + low_val_sum - (border if N == border ** 2 else 0)
+    ans = high_val_sum + low_val_sum
     print(ans)
 
 if __name__ == '__main__':
