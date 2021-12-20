@@ -13,7 +13,11 @@ def LF(): return [float(x) for x in input().split()]
 def LSS(): return input().split()
 
 def resolve():
-    pass
+    N = I()
+    if N >= 42:
+        N += 1
+    ans = 'AGC' + str(N).zfill(3)
+    print(ans)
 
 if __name__ == '__main__':
     resolve()
